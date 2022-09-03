@@ -1,0 +1,335 @@
+
+@media(max-width:998px){
+  html{
+    font-size: 55%;
+    width: 33%;
+    height: 350px;
+  }
+  .useractivityBox{
+    width: 100%;
+  }
+
+}
+@media(max-width:768px){
+  html{
+    font-size: 45%;
+    width: 70%;
+  }
+  .useractivityBox{
+    display: flex;
+    height: 100%;
+    width: 47rem;
+    margin-top: 2rem;
+    background-color: #1266f1;
+    justify-content: space-between;
+    position:relative;
+    flex-wrap: wrap;
+   
+  }
+  #childProfile{
+    display: flex;
+    height: 50rem;
+    width: 14rem;
+    align-items: center;
+    justify-content: center;
+    border: .312rem solid black;
+    order: 2;
+    float: right;  
+    background-color:white;
+    border-radius: .154rem;
+    margin-top: -1.5rem;
+  }
+  
+  .userlist{
+    margin-top:33px;
+    list-style-type: none;
+    
+  }
+  /* Add task css */
+  #chooseTask{
+    display: flex;
+    border: 1px solid black;
+    height: 17rem;
+    width: 17rem;
+    justify-content: center;
+    /* left: 50%; */
+    transform: translateX(70%);
+    background-color: white;
+    color: black;
+    border-radius: 6px;
+  
+  }
+  }
+
+
+
+body{
+	text-align: center !important;
+    background-color:skyblue;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+p{
+	margin-top: 1.5rem;
+	font-size: 1.9rem;
+}
+input{
+	text-align: center;
+}
+.mssg{
+	margin-top: 0.4rem;
+	margin-bottom: 0.4rem;
+	border-radius: 0.4rem;
+}
+.table-container{
+    margin: 2.2rem auto 0;
+    padding: 0 10%;
+    box-sizing: border-box;
+}
+
+.table{
+    width: 100%;
+    border-collapse: collapse;
+
+
+}
+.table thead{
+    background-color: #ee2828;
+
+}
+.table thead tr th{
+    font-weight: bold;
+    font-size: 1.4px;
+    letter-spacing:0.35px ;
+    color : #FFFFFF;
+    opacity:1;
+    padding: 0.8rem;
+    vertical-align: top;
+    border:1px solid yellow ;
+}
+.abc2{
+    width: 100%;
+    height: 12.5rem;
+    color: red ;
+    display: flex;
+    justify-content: center;
+
+}
+.usercontainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 43.75rem;
+   padding-right: 25rem;
+}
+.table-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top:6.25rem;
+   
+}
+.heading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top:9.375rem;
+   
+    
+}
+/* Color of the links BEFORE scroll */
+.navbar-scroll .nav-link,
+.navbar-scroll .fa-bars,
+.navbar-scroll .navar-brand {
+  color: #4f4f4f;
+}
+
+.navbar-scroll .nav-link:hover {
+  color: #1266f1;
+}
+
+/* Color of the links AFTER scroll */
+.navbar-scrolled .nav-link,
+.navbar-scrolled .fa-bars,
+.navbar-scrolled .navar-brand {
+  color: #4f4f4f;
+}
+
+/* Color of the navbar AFTER scroll */
+.navbar-scroll,
+.navbar-scrolled {
+  background-color: #fff;
+}
+
+/* An optional height of the navbar AFTER scroll */
+.navbar.navbar-scroll.navbar-scrolled {
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
+}
+
+/* css for userTask page  */
+.useractivityBox{
+  
+  display: flex;
+  height: 100%;
+  width: 100%;
+  margin-top: 130px;
+  justify-content: space-between;
+  position:relative;
+  flex-wrap: nowrap;
+ 
+}
+/* #useractivityChild{
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-wrap: wrap;
+
+
+} */
+@media (min-width: 600px){
+
+}
+#childProfile{
+  display: flex;
+  height: 22rem;
+  width: 28rem;
+  align-items: center;
+  justify-content: center;
+  border: .312rem solid black;
+  order: 2;
+  float: right;  
+  background-color:white;
+  border-radius: .312rem;
+  margin-top: -2.5rem;
+}
+
+.userlist{
+  margin-top:65px;
+  list-style-type: none;
+  
+}
+/* Add task css */
+#chooseTask{
+  display: flex;
+  border: 2px solid black;
+  height: 35rem;
+  width: 34rem;
+  justify-content: center;
+  /* left: 50%; */
+  transform: translateX(70%);
+  background-color: white;
+  color: black;
+  border-radius: 12px;
+  box-shadow: 2px 2px 2px 2px black ;
+  
+
+}
+/* add task table data */
+#taskdata{
+margin: 5rem;
+display: flex;
+/* margin-right: 250px; */
+margin-bottom: 150px;
+transform: translateX(80%);
+justify-content: center;
+
+}
+
+
+
+.ullist{
+  list-style:none;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr 1fr;
+  justify-content:center;
+  width:800px;
+
+}
+#data li{
+  padding:1em 2em .8em 2em;
+  border:1px solid black;
+
+}
+#srno{
+  counter-reset: serial-number;
+}
+#srno li:first-child:before {
+  counter-increment: serial-number;  /* Increment the serial number counter */
+  content: counter(serial-number);  /* Display the counter */
+}
+
+
+/* css for Admin Controls Panel */
+
+#controlsContainer{
+  margin-top: 120px;
+  display: grid;
+  height: 80vh;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+}
+
+.controlsChild{
+  border-radius: 20px;
+  background-color: white;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  margin: 5px;
+  padding: 5px;
+}
+/* }
+.btn-controls{
+  color: white;
+  background-color: black;
+  border-radius: 25px;
+  box-shadow: burlywood;
+  height: 70px;
+  width: 180px;
+} */
+.btn-controls {
+  background-color: transparent;
+  border: 3px solid #00d7c3;
+  border-radius: 50px;
+  -webkit-transition: all .15s ease-in-out;
+  transition: all .15s ease-in-out;
+  background-color: black;
+  color: #00d7c3;
+  height:70px;
+  width:180px;
+}
+.btn-controls:hover {
+  box-shadow: 0 0 10px 0 #00d7c3 inset, 0 0 20px 2px #00d7c3;
+  border: 3px solid #00d7c3;
+}
+select{
+  height: 30px;
+  width: 140px;
+  border-radius: 10px;
+  background-color: white;
+  color: black;
+  box-shadow: 1px 1px 1px 1px black;
+}
+
+option{
+  font-size: 16px;
+  color: black;
+}
+.tableIP{
+  margin:0px;
+  padding:0px;
+  height: 25px;
+  font-size: 12px;
+}
+
+.tbcolor{
+  background-color: white;
+  margin:0;
+  padding:0;
+}
+.tborder{
+  border:1px solid white;
+  font-size: 15px;
+}

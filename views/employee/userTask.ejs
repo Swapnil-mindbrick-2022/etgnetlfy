@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>USER-CONTROL</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+	</script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="./css/main.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<style>
+
+th, td {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+
+
+
+
+</style>
+<script>
+// 	$(document).ready(function(){
+
+// $( "#taskdelete" ).submit(function(event) {
+// 	event.preventDefault();
+
+// 	$.ajax({
+// 		type: 'delete',
+// 		url: '/userTask',
+// 		data: $('#taskdelete').serialize(),
+// 		dataType: "json",
+// 		success: function(response){
+// 			//alert("a");
+// 			//console.log(response.Success);
+// 			$('#taskdelete')[0].reset();
+
+// 				 //ADD THIS CODE
+				 
+// 			const taskdelete =document.getElementsByClassName("taskdelete")
+
+// 			taskdelete.forEach((btn)=> {
+// 				btn.submit()
+// 			});
+					
+				 
+// 			 },
+// 			 error: function() {
+// 			 }
+// 		 })
+// });
+// });
+
+</script>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-scroll">
+		<div class="container">
+			<h1 style="text-transform:uppercase; font-weight:bold; 
+	   margin-top: 3rem; position: absolute;
+	    margin: 0.6rem; font-family: cursive; color: black; font-size: 1.5rem;"> Welcome </h1>
+		<h1 style="text-transform:uppercase; font-weight:bold; 
+		margin-top: 2.9rem; position: absolute;
+		 margin: 9rem; font-family: cursive; color: black; font-size: 1.5rem;"><%= Data.firstName %> </h1>
+		  <button class="navbar-toggler ps-0" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarExample01"
+			aria-controls="navbarExample01" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon d-flex justify-content-start align-items-center">
+			  <i class="fas fa-bars"></i>
+			</span>
+		  </button>
+		  <div class="collapse navbar-collapse" id="navbarExample01">
+			<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+			  <li class="nav-item active">
+				<a class="nav-link" aria-current="page" href="/logout" alert='pleased submit your task before logout'
+				style ='height:5rem; width: 8.5rem; color:red; font-size: 19px;' onclick="myFunction()">
+					LOGOUT</a>
+				<p id="demo"></p>
+			  </li>
+			</ul>
+		  </div>
+		</div>
+	  </nav>
+	  
+	  <div class="useractivityBox container-fluid">
+		<!-- <div id="useractivitychild" class="row"> -->
+			<div id="childProfile" class="col-xs-6 col-xs-offset-1 col-sm-2 col-sm-offset-0">
+				<fieldset>
+				<ul  style="font-size: 13px; font-weight: bold;text-transform: uppercase; "class='userlist' >
+					
+					
+					<li><img src=' ' style="width:9.2rem ;height:6rem; border-radius: 50%; margin-top: -120px; margin-left: -10px;"></li>
+					<li style="margin-bottom: 5px;"> <%= Data.firstName + Data.lastName %></li>
+					<li style="margin-bottom: 10px;" > <%= Data.designation %></li>
+					<li>TeamLeader : <%= Data.teamLeader %></li>
+					<li style="margin-top:0.9rem">Login time :<span id ='date-time'> </span> </li>
+					<!-- <div id ='date-time'>
+						LOGIN TIME:- 
+					   </div> -->
+				</ul>
+				
+			</fieldset>
+			</div>
+	
+			<!-- <h1>Welcome :- <%= Data.firstName %> </h1> -->
+			<div id="chooseTask"    class="col-xs-9 col-sm-3">
+				<!-- //fr adding task in table -->
+				<form action="/submittask" style="margin-top: 3.5rem;display: block;"  id="taskStatus"
+				 method="POST" enctype="multipart/form-data">
+					<h3>SELECT TASK</h3> 
+					
+					<br>
+					<label for="" style="font-size: 1.2rem; ;">Project :</label>
+								<select id ="parentselect" name="projectName" style="font-size: 13px; margin: 15px">
+									<%projects.forEach((project)=>{%>
+									<option data-state="<%= project.projectName %>" value="<%= project.projectName %>"
+										 style='color: black;'><%= project.projectName %></option>
+									<%})%>
+								</select>
+								<br>
+						<label    style=" margin-right: 1.5rem; font-size: 13px;"for="">Task :</label>
+						
+						<select style="font-size: 1.2rem; margin: 0.4rem; "  id ="childselect" name="task">
+							<%projects.forEach((project)=>{%>
+								<% project.task.forEach((task)=>{%>
+							<option data-state="<%= project.projectName %>" value="<%=task%>"><%= task%></option>
+							<%})%>
+						<%})%>
+						</select>
+						<br>
+						<label style="font-size: 1.3rem; margin: 1.2rem;" for="duration">Duration :</label>
+						
+							<select style="font-size: 1.3rem; margin-right: 2.25rem; margin-top: 2rem; color: black;" id ='duration'  name="timetaken">
+								<option value=""></option>
+								<option value="1 hour">1 hour</option>
+								<option value="2 hour">2 hour</option>
+								<option value="3 hour">3 hour</option>
+								<option value="4 hour">4 hour</option>
+								<option value="5 hour">5 hour</option>
+								<option value="6 hour">6 hour</option>
+								<option value="7 hour">7 hour</option>
+								<option value="8 hour">8 hour</option>
+								<option value="9 hour">9 hour</option>
+								<option value="10 hour">10 hour</option>
+							</select>
+						<br>
+						<button id="statusBtn" style="margin-top: 1.8rem; width: 8.4rem;" class="btn btn-primary btn-lg" 
+						 type="submit" onclick="window.parent.location.reload();">Add </button>
+								</div>
+							  </div>
+							</div>
+						  </div>
+					</div>
+					<!-- </div> -->
+					<div id="success"></div>
+				</form>
+	
+
+		</div>
+		
+						<!-- <form action="/submittask" method='post'id="taskhandler" 
+				enctype="multipart/form-data" class="d-flex justify-content-center"> -->
+			<div id="taskdata" class="col-xs-6 col-sm-3" >
+				
+				<fieldset>
+					<table  id="data" style ="width:800px" >
+						<thead class="  table-dark" style="background-color: black; color:white;">
+							<tr style ='font-size: 10px; width:100px;'>
+							<th class="tborder" >Sr. No.</th>
+							<th class="tborder">Date</th>
+							<th class="tborder">Project</th>
+							<th class="tborder">Task</th>
+							<th class="tborder">Duraion </th>
+							<th class="tborder">action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% if(pendingTask){ %>
+								<% for(let i =0; i < pendingTask.length; i++){ %>
+									<tr>
+										<td class='tbcolor'scope ="row"> <%= i+1%> </td>
+										<td  class='tbcolor'scope ="row"><%= pendingTask[i].date%></td>
+										<td  class='tbcolor'scope ="row"><%=pendingTask[i].projectName%></td>
+										<td  class='tbcolor'scope ="row"><%=pendingTask[i].task%></td>
+										<td class='tbcolor' scope ="row"><%= pendingTask[i].timetaken%></td>
+										<td class='tbcolor'  scope ="row">
+										<form action="/userTask/<%= pendingTask[i].id %>?_method=DELETE" method="POST">
+											<button class="btn btn-danger">Delete</button>
+										</form>
+									</td>
+									</tr>
+									<% }%>
+									<%}%>
+						</tbody>
+						</table>
+				
+						<form id="updateTask" action="/userTask" method="put" enctype="multipart/form-data">
+							
+							<p style="text-align:center;">
+						<fieldset>
+							<button  style="margin-left: 350px; width: 10rem; height: 3.2rem; font-size: medium;"onclick=" hidetable()" id="submittask" 
+							type="submit" class="btn btn-warning">Submit</button>
+							<h3 id ="submitnotification"></h3>
+						</fieldset>
+					
+						</div>
+								  <div id="deletesuccess"></div>
+						<!-- </fieldset> -->
+						</form>
+
+					
+					
+				
+			</div>
+		</div>
+	</div>
+	
+
+	
+
+	<script type="text/javascript">
+// 		const srno = document.getElementById("srno").value++;
+// 		const button= document.getElementById("taskStatus")
+// button.addEventListener("click", function(evt) {
+// 	srno++
+// })
+
+ function hidetable() {
+
+	if(table.style.display==="none"){
+		
+		table.style.display="block"	
+	}else{
+		table.style.display="none"
+		// window.parent.location.reload();
+	}
+	document.getElementById("submitnotification").innerHTML="Task Submitted Successfully"
+	setTimeout(()=>{
+		document.getElementById("submitnotification").innerHTML=" "
+	},900000)
+	
+ }
+//  const table=document.getElementById("taskStatus");
+// 		const tbodyEl = document.querySelector("tbody");
+//       	const tableEl = document.querySelector("table");
+	
+
+
+      function onDeleteRow(e) {
+        if (!e.target.classList.contains("deleteBtn")) {
+          return;
+        }
+
+        const btn = e.target;
+        btn.closest("tr").remove();
+      }
+
+    //   table.addEventListener("submit", onAddWebsite);
+    //   tableEl.addEventListener("click", onDeleteRow);
+
+
+
+
+// for log in time
+const zeroFill = n => {
+				return ('0' + n).slice(-2);
+			}
+				const now = new Date();
+
+				// Format date as in mm/dd/aaaa hh:ii:ss
+				const dateTime = zeroFill((now.getMonth() + 1)) + '/' + zeroFill(now.getUTCDate()) + '/' 
+				+ now.getFullYear() + ' ' + zeroFill(now.getHours()) + ':' + zeroFill(now.getMinutes()) + ':' +
+				 zeroFill(now.getSeconds());
+
+				// Display the date and time on the screen using div#date-time
+				document.getElementById('date-time').innerHTML = dateTime;
+
+
+
+	
+				const $select1 = $( '#parentselect' ),
+				$select2 = $( '#childselect' ),
+				$options = $select2.find( 'option' );
+				
+				$select1.on( 'change', function() {
+				$select2.html( $options.filter( '[data-state="' + this.value + '"]' ) );
+				} ).trigger( 'change' );
+				
+					
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			
+
+$( "#updateTask" ).submit(function(event) {
+	// event.preventDefault();
+	$.ajax({
+		type: 'PUT',
+		url: '/userTask',
+		data: $('#updateTask').serialize(),
+		dataType: "json",
+		success: function(response){
+			//alert("a");
+			//console.log(response.Success);
+			$('#updateTask')[0].reset();
+			document.getElementById("success").innerHTML= 'Task Submitted Successfully!';
+				//  ADD THIS CODE
+				 setTimeout(function(){
+					 document.getElementById("success").innerHTML="";
+				 },2000);
+				 if (response.Success=="Task Added Successfully!") {
+					 document.getElementById("submittask").click();
+				 };
+			 },
+			 error: function() {
+			 }
+		 })
+		 
+});
+
+function myFunction() {
+  var txt;
+  if (confirm("Press a button!")) {
+    txt = "press ok!";
+  } else {
+    txt = "You pressed Cancel!";
+  }
+  document.getElementById("demo").innerHTML = txt;
+}
+
+});
+// fetch('/userTask',{method:'DELETE',data:{}})
+
+    
+
+           
+            // employes = [{
+            //     projectName : 'python ' , task :'find dictionary ',duration : "2 hr" 
+            // }]
+
+			// let employee = employes.filter((val)=>{
+			// 	return val.projectName, val.task, val.timetaken
+			// })
+			// console.log(employee)
+				// let employee = [];
+			// employes.forEach((employee)=>{
+			// 	employee.push(employee.)
+
+			// })
+
+            // let header = [ "Sr.No.","projectName", "task", "duration", "Delete"];
+            // btn.addEventListener('click', ()=>{
+
+            //     let table = document.createElement('table');
+            //     let headerRow = document.createElement('tr');
+
+            //     header.forEach(headerText =>{
+            //         let headers =
+            //         document.createElement('th');
+            //         let textNode= 
+            //         document.createTextNode(headerText);
+            //         headers.appendChild(textNode);
+            //         headerRow.appendChild(headers);
+
+
+            //     })
+            //     table.appendChild(headerRow);
+            //     employes.forEach(emp=>{
+            //         let rwo = document.createElement('tr');
+
+
+            //         Object.values(emp).forEach(text=>{
+
+            //             let cell= 
+            //             document.createElement('td');
+            //             let textNode= document.createTextNode(text);
+            //             cell.appendChild(textNode);
+            //             rwo.appendChild(cell);
+
+            //         })
+            //         table.appendChild(rwo);
+
+            //     })
+            //     mytable.appendChild(table);
+            // })
+
+	</script>
+	
+</body>
+</html>

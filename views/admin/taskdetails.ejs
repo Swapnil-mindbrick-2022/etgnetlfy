@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/jquery-2.0.3.min.js" data-semver="2.0.3" data-require="jquery"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/css/jquery.dataTables_themeroller.css" rel="stylesheet" data-semver="1.9.4" data-require="datatables@*" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/css/jquery.dataTables.css" rel="stylesheet" data-semver="1.9.4" data-require="datatables@*" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/css/demo_table_jui.css" rel="stylesheet" data-semver="1.9.4" data-require="datatables@*" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/css/demo_table.css" rel="stylesheet" data-semver="1.9.4" data-require="datatables@*" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/css/demo_page.css" rel="stylesheet" data-semver="1.9.4" data-require="datatables@*" />
+    <link data-require="jqueryui@*" data-semver="1.10.0" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/css/smoothness/jquery-ui-1.10.0.custom.min.css" />
+    <script data-require="jqueryui@*" data-semver="1.10.0" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/jquery.dataTables.js" data-semver="1.9.4" data-require="datatables@*"></script>
+    
+   
+    <style>
+        h1 {
+    color: red;
+  }
+    </style>
+  </head>
+  
+  <body style="background-color:aqua; margin: 0; padding: 0;">
+    <nav style="background-color: white; margin-top: -20px;padding: 0; height: 80px;">
+      <h2 style="margin-left: 20px; padding: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" class="font-weight-bold">TASK DETAILS</h2>
+    </nav>
+    
+<div>
+  <p id="date_filter" style="margin-top: 50px; margin-left: 50px;" >
+    <span id="date-label-from" class="date-label">From: </span><input class="date_range_filter date"
+     type="text" id="datepicker_from" />
+    <span id="date-label-to" class="date-label">To:<input class="date_range_filter date" type="text" id="datepicker_to" />
+</p>
+    <table class="table table-hover" class="display" id="datatable" style="margin: 10px;width: 98%;">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col" >DATE</th>
+          <th scope="col" >USER NAME</th>
+          <th scope="col">PROJECT NAME</th>
+          <th scope="col">TASK</th>
+          <th scope="col">TIME TAKEN</th>
+          <th scope="col">TEAM LEADER</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        <% taskreport.forEach((report)=>{%>
+          <tr>
+            <td><%=report.date%></td>
+            <td><%=report.assignedTo%></td>
+            <td><%= report.projectName%></td>
+            <td><%= report.task%></td>
+            <td><%= report.timetaken%></td>
+            <td><%= report.teamleader%> </td>
+          </tr>
+          <%})%>
+      </tbody>
+    </table>
+    <button class="btn btn-success" onclick="exportData()">
+        <span class="glyphicon glyphicon-download "></span>
+        Download list</button>
+
+</div>
+
+    <script>
+// find and search by range 
+$(function() {
+    var oTable = $('#datatable').DataTable({
+      "oLanguage": {
+        "sSearch": "Search By Project Name"
+      },
+      "iDisplayLength": -1,
+      "sPaginationType": "full_numbers",
+  
+    });
+  
+  
+  
+  
+    $("#datepicker_from").datepicker({
+      showOn: "button",
+      // buttonImage: "../css/img/calendaricon.jpg",
+      buttonImageOnly: false,
+      "onSelect": function(date) {
+        minDateFilter = new Date(date).getTime();
+        oTable.fnDraw();
+      }
+    }).keyup(function() {
+      minDateFilter = new Date(this.value).getTime();
+      oTable.fnDraw();
+    });
+  
+    $("#datepicker_to").datepicker({
+      showOn: "button",
+      // buttonImage: "images/calendar.gif",
+      buttonImageOnly: false,
+      "onSelect": function(date) {
+        maxDateFilter = new Date(date).getTime();
+        oTable.fnDraw();
+      }
+    }).keyup(function() {
+      maxDateFilter = new Date(this.value).getTime();
+      oTable.fnDraw();
+    });
+  
+  });
+  
+  // Date range filter
+  minDateFilter = "";
+  maxDateFilter = "";
+  
+  $.fn.dataTableExt.afnFiltering.push(
+    function(oSettings, aData, iDataIndex) {
+      if (typeof aData._date == 'undefined') {
+        aData._date = new Date(aData[0]).getTime();
+      }
+  
+      if (minDateFilter && !isNaN(minDateFilter)) {
+        if (aData._date < minDateFilter) {
+          return false;
+        }
+      }
+  
+      if (maxDateFilter && !isNaN(maxDateFilter)) {
+        if (aData._date > maxDateFilter) {
+          return false;
+        }
+      }
+  
+      return true;
+    }
+  );
+
+
+
+//  for download the data 
+    function exportData(){
+    /* Get the HTML data using Element by Id */
+    var table = document.getElementById("datatable");
+ 
+    /* Declaring array variable */
+    var rows =[];
+ 
+      //iterate through rows of table
+    for(var i=0,row; row = table.rows[i];i++){
+        //rows would be accessed using the "row" variable assigned in the for loop
+        //Get each cell value/column from the row
+        column1 = row.cells[0].innerText;
+        column2 = row.cells[1].innerText;
+        column3 = row.cells[2].innerText;
+        column4 = row.cells[3].innerText;
+        column5 = row.cells[4].innerText;
+        column5 = row.cells[5].innerText;
+ 
+    /* add a new records in the array */
+        rows.push(
+            [
+                column1,
+                column2,
+                column3,
+                column4,
+                column5
+                
+              
+            ]
+        );
+ 
+        }
+        csvContent = "data:text/csv;charset=utf-8,";
+         /* add the column delimiter as comma(,) and each row splitted by new line character (\n) */
+        rows.forEach(function(rowArray){
+            row = rowArray.join(",");
+            csvContent += row + "\r\n";
+        });
+ 
+        /* create a hidden <a> DOM node and set its download attribute */
+        var encodedUri = encodeURI(csvContent);
+        var link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "report.csv");
+        document.body.appendChild(link);
+         /* download the data file named "Stock_Price_Report.csv" */
+        link.click();
+}
+
+    </script>
+   
+  </body>
+
+</html>

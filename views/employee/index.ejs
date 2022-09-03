@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Registration</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+	</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="./css/index.css">
+
+
+	<script type="text/javascript" >
+		loginbtn = document.getElementById('loginbtn')
+
+	
+  
+
+
+		function myfunction() {
+			alert("form submit Successfully");
+		}
+
+	</script>
+</head>
+<body>
+
+
+
+
+	<h1>Registration form</h1>
+	<div class="form-container">
+<form action ='/'method='post' name="registerForm" id="form1" onsubmit='myfunction()'enctype="multipart/form-data">
+		<label for="firstName">First Name *</label>
+		<input type="text" id="firstName" name="firstName" placeholder="John" required/><p class="error-message"></p>
+		<label for="lastName">Last Name *</label>
+		<input type="text" id="lastName" name="lastName"placeholder="Doe" required/>
+		<p class="error-message"></p>
+		<label for="e-mail">Date of birth *</label>
+		<input type ='date'id ="date_of_birth"name='date_of_birth' placeholder="date_of_birth"required/>
+		<p class="error-message"></p>
+		<label for="e-mail">Designation *</label>
+		<input  type ='text'id ="designation" name='designation' placeholder="designation" required="" />
+		<p class="error-message"></p>
+		<label for="teamLeader">Team Leader *</label>
+		<input  type ='text'id ="teamLeader"name='teamLeader' placeholder="teamLeader" required=""/>
+		<p class="error-message"></p>
+
+
+		<label for="e-mail">E-mail address *</label>
+		<input type="text" id="e-mail" name="email" placeholder="john-doe@net.com" required/>
+		<p class="error-message"></p>
+		<label for="e-mail">Upload image *</label>
+		<input type="file" id="awtar" name="awtar" placeholder=" " loading='laizy' accept="image/*" required/>
+		<p class="error-message"></p>
+
+
+		<input id="loginbtn" class="button" type="submit" value="submit" name="submit" /><a href="/login" ></a>
+		</div>
+		
+
+</form>
+<div class="mssg bg-danger">
+	<span id="check"></span>
+</div>
+<div>
+	<span>Already Registered! <a href="/login">Login</a></span>
+</div>
+<div id="LangTable"><a href="/login" id="aa"></a>
+</div>
+</div>
+</body>
+</html>
