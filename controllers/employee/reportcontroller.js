@@ -1,6 +1,9 @@
 const employee = require('../../models/user')
 const taskreport = require('../../models/taskreport')
 const { request } = require('express')
+const fs = require("fs");
+const imageModel = require('../../models/profilepic');
+
 // const { connect } = require('mongoose')
 
 function fetchProjectReport(app){
@@ -110,6 +113,38 @@ function fetchProjectReport(app){
             
 
             
+        },
+        async postProfile(req,res){
+            const data = req.body
+            console.log(data)
+            employee.findOne({unique_id:req.session.userId},(err,profilepic)=>{
+                if(err){
+                    console.log(err)
+                }
+                else{
+                    console.log(profilepic)
+
+                    var img = fs.readFileSync(req.file.path);
+                    var encode_img = img.toString('base64');
+                    const final_img = {
+                        contentType:req.file.mimetype,
+                        image:new Buffer(encode_img,'base64')
+                    };
+                 
+                    new imageModel({
+                        img:req.file.originalname,
+                        uploadedBy:profilepic.unique_id
+                        
+                    })
+                    .save()
+                    .then(console.log(req.file))
+                    res.redirect('/userTask')
+                    // res.send('success')
+                   
+                }
+            })
+
+       
         }
     }
    

@@ -7,10 +7,11 @@ const  bodyParser = require('body-parser');
 const  mongoose = require('mongoose');
 const  session = require('express-session');
 const  MongoStore = require('connect-mongo')(session);  
-const fileUpload = require('express-fileupload');
-const  morgan= require('morgan');
+// const fileUpload = require('express-fileupload');
+// const  morgan= require('morgan');
 const  methodoverride  = require('method-override')
 app.use(methodoverride('_method'))
+const multer = require('multer');
 const flash = require('connect-flash')
 // const DB = "mongodb+srv://Mindbrick:password@mindbrick.zdiyp2p.mongodb.net/employe/?retryWrites=true&w=majority"
 // const DB="mongodb://localhost:27017/swapnil"
@@ -32,9 +33,6 @@ const  db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
 });
-app.use(fileUpload({
-  limits: { fileSize: 50 * 1024 * 1024 },
-}));
 app.use(session({
   secret: 'work hard',
   resave: true,
@@ -49,7 +47,7 @@ app.use(session({
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');	
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

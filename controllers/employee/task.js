@@ -1,15 +1,26 @@
 const adminRoute = require("../../routes/admin");
 const taskreport = require('../../models/taskreport');
+const imageModel = require('../../models/profilepic');
+
 // const moment = require('moment')
 //  data fetch from project scheema and user schema 
 function fetchprojectData(){
+
     let pendinglength = 0
     // console.log(pendinglength)
 
 	return{
         async getprojects(req,res){
-            // let userLogin = false
-            //for assigned task
+            let profilepic=null
+            imageModel.findOne({uploadedBy:req.session.userId},(err,profile)=>{
+                if(err){
+                    console.log(err)
+                }else{
+                    profilepic = profile
+                    console.log(profilepic)
+                }
+            })
+           
             await taskSchema.find({},(err,taskSchema)=>{
                 if (err){
                     console.log(err)
@@ -45,7 +56,8 @@ function fetchprojectData(){
 
                                             // console.log(pendinglength)
                                                 res.render('employee/userTask.ejs',{'projects':tasks, 'Data':data,
-                                                'pendingTask':pendingtask})
+                                                'pendingTask':pendingtask, 
+                                                'pendinglength': JSON.stringify(pendinglength),'profilepic':profilepic})
                                         }
                                     })
 
@@ -96,8 +108,16 @@ function fetchprojectData(){
                                     if (err){
                                         console.log(err)
                                     }else{
-                                        console.log(adminName)
-                                    res.render("admin/maketeam.ejs",{"employees":employee,"project":data,'assignedBy':adminName})
+                                        taskSchema.find({},(err,assignedtask)=>{
+                                            if (err){
+                                                console.log(err)
+                                            }else{
+                                                res.render("admin/maketeam.ejs",{"employees":employee,
+                                                "project":data,'assignedBy':adminName,"assignedtask":assignedtask})
+                                            }
+                                        })
+                                        
+                                    // res.render("admin/maketeam.ejs",{"employees":employee,"project":data,'assignedBy':adminName})
 
                                     }
                                 })
@@ -121,38 +141,15 @@ function fetchprojectData(){
         async updateProject(req,res){
             const getProject = await req.body.updateProject
             const tasks = req.body.taskUpdate
-            // project.findOne({projectName:getProject},(err,projects)=>{
-            //     if (err){
-            //         console.log(err)
-            //     }else{
-            //         projects.task.forEach((ele)=>{
-            //             ele.findOne({tasks},(err,tasks)=>{
-            //                 if (err){
-            //                     console.log(err)
-            //                 }else{
-            //                     console.log(tasks)
-            //                     res.redirect('/addProject')
-            //                 }
-            //             })
-            //         })
-            //     }
-            // })
 
-            if (getProject){
-                await project.findOneAndUpdate(
-                    {projectName:getProject},
-                    {$push: {task: req.body.taskUpdate}},
-                    function (err,success){
-                        if(err){
-                            console.log(err)
-                        }else{
-                            console.log(success)
-                            // res.send('success')
-                            res.redirect('/addproject')
-                        }
-                    }
+                await project.updateOne(
+                    {projectName:req.body.updateProject},
+                    {$push: {task: tasks}},
+                    
+                ).then(
+                    res.redirect('/addproject')
                 )
-            }            
+                 
         },
         //employee task Updates------
         async taskupdates(req,res){
@@ -221,6 +218,7 @@ async assigntask(req,res){
                             assignedTo: getTask.employee,
                             // teamLead: lead.teamLeader,
                             taskStatus: 'active'
+                            
                         });
                         const value = assignTask.save();
                         console.log(value)

@@ -1,7 +1,6 @@
 const User = require('../models/user');
 const multer=require('multer');
 let alert = require('alert')
-const notifier = require('node-notifier')
 const project= require('../models/project')
 const fetchprojectData = require('../controllers/employee/task')
 
@@ -94,7 +93,7 @@ app.get('/logout', function (req, res, next) {
 		let pendingTask = req.session.pending
 
 		if (pendingTask  > 0){
-			alert('Please Submit Your Task Before Logging Out')
+			
 			res.redirect('/userTask')
 		}else{
 			req.session.destroy(function (err) {

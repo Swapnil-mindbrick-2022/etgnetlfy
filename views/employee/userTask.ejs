@@ -16,11 +16,6 @@ th, td {
     border: 1px solid black;
     padding: 5px;
 }
-
-
-
-
-
 </style>
 <script>
 // 	$(document).ready(function(){
@@ -88,28 +83,31 @@ th, td {
 			<div id="childProfile" class="col-xs-6 col-xs-offset-1 col-sm-2 col-sm-offset-0">
 				<fieldset>
 				<ul  style="font-size: 13px; font-weight: bold;text-transform: uppercase; "class='userlist' >
+				
+					<% if (profilepic == null){%>
+						<li><img src=' ' style="width:9.2rem ;height:6rem; border-radius: 50%; margin-top: -120px; margin-left: -10px;"></li>
+
+					<%  }else{%>
+						<li><img src='../css/img/<%= profilepic.img %>' style="width:9.2rem ;height:6rem; border-radius: 50%; margin-top: -120px; margin-left: -10px;"></li>
+					<%} %>
 					
-					
-					<li><img src=' ' style="width:9.2rem ;height:6rem; border-radius: 50%; margin-top: -120px; margin-left: -10px;"></li>
 					<li style="margin-bottom: 5px;"> <%= Data.firstName + Data.lastName %></li>
 					<li style="margin-bottom: 10px;" > <%= Data.designation %></li>
 					<li>TeamLeader : <%= Data.teamLeader %></li>
 					<li style="margin-top:0.9rem">Login time :<span id ='date-time'> </span> </li>
-					<!-- <div id ='date-time'>
-						LOGIN TIME:- 
-					   </div> -->
+					<form action="/userTask/uploadphoto" enctype="multipart/form-data" method="post">
+						<input type="file" name="myImage" accept="image/*">
+						<input type="submit" value="Upload Photo">
+					</form>
 				</ul>
-				
 			</fieldset>
 			</div>
-	
 			<!-- <h1>Welcome :- <%= Data.firstName %> </h1> -->
 			<div id="chooseTask"    class="col-xs-9 col-sm-3">
 				<!-- //fr adding task in table -->
-				<form action="/submittask" style="margin-top: 3.5rem;display: block;"  id="taskStatus"
-				 method="POST" enctype="multipart/form-data">
+				<form action="/submittask" style="margin-top: 3.5rem;display: block;"  id="taskStatus" 
+				 method="POST">
 					<h3>SELECT TASK</h3> 
-					
 					<br>
 					<label for="" style="font-size: 1.2rem; ;">Project :</label>
 								<select id ="parentselect" name="projectName" style="font-size: 13px; margin: 15px">
@@ -119,7 +117,7 @@ th, td {
 									<%})%>
 								</select>
 								<br>
-						<label    style=" margin-right: 1.5rem; font-size: 13px;"for="">Task :</label>
+						<label style=" margin-right: 1.5rem; font-size: 13px;"for="">Task :</label>
 						
 						<select style="font-size: 1.2rem; margin: 0.4rem; "  id ="childselect" name="task">
 							<%projects.forEach((project)=>{%>
@@ -171,8 +169,8 @@ th, td {
 							<th class="tborder">Date</th>
 							<th class="tborder">Project</th>
 							<th class="tborder">Task</th>
-							<th class="tborder">Duraion </th>
-							<th class="tborder">action</th>
+							<th class="tborder">Duration </th>
+							<th class="tborder">Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -319,18 +317,24 @@ $( "#updateTask" ).submit(function(event) {
 		 
 });
 
-function myFunction() {
-  var txt;
-  if (confirm("Press a button!")) {
-    txt = "press ok!";
-  } else {
-    txt = "You pressed Cancel!";
-  }
-  document.getElementById("demo").innerHTML = txt;
-}
+// function myFunction() {
+//   var txt;
+//   if (confirm("Press a button!")) {
+//     txt = "press ok!";
+//   } else {
+//     txt = "You pressed Cancel!";
+//   }
+//   document.getElementById("demo").innerHTML = txt;
+// }
 
 });
 // fetch('/userTask',{method:'DELETE',data:{}})
+function myFunction(){
+	let pendinglength = JSON.parse(`<%- pendinglength %>`);
+	if (pendinglength > 0){
+		window.alert('Please Submit Your Task Before Logging-Out')
+	}
+}
 
     
 

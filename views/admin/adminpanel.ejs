@@ -49,20 +49,20 @@
                 <h2>Manage <b>Employees</b></h2>
               </div>
               <div class="col-xs-6">
-                <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Employee</span></a>
-                <a href="#deleteEmployeeModal"class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
+                <!-- <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Employee</span></a>
+                <a href="#deleteEmployeeModal"class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						 -->
               </div>
             </div>
           </div>
           <table class="table table-striped table-hover">
             <thead>
               <tr>
-                <th>
+                <!-- <th>
                   <span class="custom-checkbox">
                     <input type="checkbox" id="selectAll">
                     <label for="selectAll"></label>
                   </span>
-                </th>
+                </th> -->
                 <th>firstName</th>
                 <th>lastName</th>
                 <th>designation</th>
@@ -77,12 +77,12 @@
             <tbody>
               <% value.forEach(function(student) { %>
               <tr>
-                <td>
+                <!-- <td>
                   <span class="custom-checkbox">
                     <input type="checkbox" id="checkbox1" name="options[]" value="1">
                     <label for="checkbox1"></label>
                   </span>
-                </td>
+                </td> -->
                 <td><%= student.firstName %></td>
                 <td><%= student.lastName %></td>
                 <td><%= student.designation %></td>
@@ -92,10 +92,10 @@
                 <td><%= student.email %></td>
                 <td><%= student.password %></td>
                 <td><%= student.lastLogin%></td>
-                <td>
+                <!-- <td>
                   <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                   <a href="/deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                </td>
+                </td> -->
               </tr>
               <% }); %> 
                         

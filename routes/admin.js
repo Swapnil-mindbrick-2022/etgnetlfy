@@ -58,7 +58,7 @@ app.get('/admincontrols', function (req, res, next) {
 //Get Add project----
 app.get('/addproject', function (req, res, next) {
 	if (adminLogin == true){
-		project.find({},(err,projects)=>{	
+		project.find({},null,{sort:{'date':1}},(err,projects)=>{	
 
 			if(err){
 				console.log(err)
@@ -77,28 +77,29 @@ app.get('/addproject', function (req, res, next) {
 //Register Login---------
 app.post('/admin', function(req, res, next) {
 	console.log(req.body);
-	const personInfo = req.body;
+	var personInfo = req.body;
+	
 
 
-	if(!personInfo.email || !personInfo.username || !personInfo.password || !personInfo.passwordConf){
+	if(!personInfo.email || !personInfo.username || !personInfo.password || !personInfo.passwordConf ){
 		res.send();
 	} else {
 		if (personInfo.password == personInfo.passwordConf) {
 
 			admin.findOne({email:personInfo.email},function(err,data){
 				if(!data){
-					var c;
+					var d;
 					admin.findOne({},function(err,data){
 
 						if (data) {
-							console.log("if");
-							c = data.unique_id + 1;
+							// console.log(data);
+							d = data.unique_id + 1;
 						}else{
-							c=1;
+							d=1;
 						}
 
 						var newPerson = new admin({
-							unique_id:c,
+							unique_id:d,
 							email:personInfo.email,
 							username: personInfo.username,
 							password: personInfo.password,
@@ -113,16 +114,19 @@ app.post('/admin', function(req, res, next) {
 						});
 
 					}).sort({_id: -1}).limit(1);
-					res.send({"Success":"You are regestered,You can login now."});
+					// req.flash('error','You are registered Successfully!!');
+					res.send({'success':'Registered Successfully'});
+					// return res.redirect('/adminlogin');
 				}else{
-					res.send({"Success":"Email is already used."});
+					res.send({"Failed":"Email is already In  use."});
 				}
 
 			});
 		}else{
-			res.send({"Success":"password is not matched"});
+			res.send({"Failed ":"password does not match"});
 		}
 	}
+	next()
 });
 
 app.get('/adminlogin', function (req, res, next) {

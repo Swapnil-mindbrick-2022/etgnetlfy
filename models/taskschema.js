@@ -18,10 +18,8 @@ taskSchema = new Schema( {
     taskStatus: {
         type:String,
         required: true},
-
-    date:{
-        type: String
-    }
+        
+    date :{ type : Date, default: Date.now }
 
 })
 

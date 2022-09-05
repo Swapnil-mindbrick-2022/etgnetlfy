@@ -1,11 +1,23 @@
 const project = require('../models/project');
-const moment = require('moment');
 const admin = require('../models/admin');
 const admincontroller = require('../controllers/admin/task')
 const taskSchema = require('../models/taskschema')
 const taskreport = require('../models/taskreport')
-
 require('./admin')
+const multer = require('multer')
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname + '-' + Date.now())
+  }
+})
+
+var upload = multer({ storage: storage })
+
+
 
 const fetchprojectData = require('../controllers/employee/task');
 const fetchProjectReport = require('../controllers/employee/reportcontroller');
@@ -15,8 +27,8 @@ function projectrouter(app){
         const data = new project({
             projectName:req.body.projectName,
             task:req.body.task
-        });
-        const val = await data.save();
+        })
+         await data.save();
         res.redirect('/addproject')
     })
     //for deleting project------
@@ -24,7 +36,8 @@ function projectrouter(app){
     //getting project by id--
     app.get('/project/:id',fetchprojectData().findProjectById);
     app.post('/addproject/project/',fetchprojectData().getallEmployees);
-    app.put('/project',fetchprojectData().updateProject)
+    //for adding tasks in already created project-----
+    app.put('/addtask',fetchprojectData().updateProject);
     app.get('/assignedtask',fetchprojectData().assignedTask);
     app.post('/assignproject',fetchprojectData().assigntask);        //assigning task  to employees
     app.post('/usersession',fetchprojectData().sessionsave)//storing data into session Storage----
@@ -41,7 +54,8 @@ function projectrouter(app){
 
     // delete submited task and project
     app.delete('/userTask/:id',fetchProjectReport().deletprojectTask)
-    
+    //for uploading-------
+    app.post("/userTask/uploadphoto",upload.single('myImage'),fetchProjectReport().postProfile)
 }
 
 module.exports = projectrouter

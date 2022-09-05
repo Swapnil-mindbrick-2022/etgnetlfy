@@ -15,32 +15,7 @@ integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
-    <div class="table-container">
-        <table id="myTable" class="table table-hover table-sm">
-            <thead class="table-dark thead-dark">
-                <tr>
-                    <th  scope="col">UserName</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">designation</th>
-                    <th scope="col">teamLeader</th>
-                </tr>   
-            </thead>
-            <tbody>              
-                <% employees.forEach(function(employee){%>
-                    <tr class="rowSelect">
-                        <td id="user"><%= employee.username %></td>
-                        <td class="employeeName" value="<%= employee.firstName%>"><%= employee.firstName + 
-                        employee.lastName %></td>
-                        <td ><%= employee.email %></td>
-                        <td><%= employee.designation %></td>
-                        <td><%= employee.teamLeader %></td>
-                    </tr>
-                <% }) %> 
-        </tbody>
-    </table>
-        <button type="submit" class="btn btn-warning">Create Team</button>       
-    </div>
+    
 <!-- <button id="assignTask" type="button" class="btn btn-success">Assign Task</button> -->
 <!-- <button id="assignTask" type="button">AssignTask</button> -->
         <div>
@@ -77,14 +52,42 @@ integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4
                                     <%})%>
                                 </select>
                             </td>
-                            <td><button type="submit" id="assignBtn" class="btn btn-info">Assign</button></td>
+                            <td><button type="submit"  onclick="window.parent.location.reload()" id="assignBtn" class="btn btn-info">Assign</button></td>
                             </tr>     
                         </tbody>
                 </form>
                 <div id="success"></div>
                 </table>
-                <!-- <input type="button" value="Assign"> -->
-            
+        </div>
+        <div class="table-container">
+            <table id="myTable" class="table table-hover table-sm">
+                <thead class="table-dark thead-dark">
+                    <tr>
+                        <th  scope="col">Assigned Date</th>
+                        <th scope="col">Project</th>
+                        <th scope="col">Task</th>
+                        <th scope="col">Assigned To</th>
+                        <!-- <th scope="col">teamLeader</th> -->
+                    </tr>   
+                </thead>
+                <tbody>
+
+                    <% assignedtask.forEach(function(employee){%>
+                        <% employee.task.forEach(function(tasks){%>
+
+                        <tr class="rowSelect">
+                            <td id="user"><%= employee.date.toString().substring(0,16)%></td>
+                            <td class="employeeName"><%= employee.projectName %></td>
+                            <td ><%= tasks %></td>
+                            <td><%= employee.assignedTo %></td>
+                            <!-- <td><%= employee.teamLeader %></td> -->
+                        </tr>
+                    <% }) %>
+                <% }) %>
+
+            </tbody>
+        </table>
+            <!-- <button type="submit" class="btn btn-warning">Create Team</button>        -->
         </div>
 <script type="text/javascript">
     const assignTask = document.getElementById('assignTask');
