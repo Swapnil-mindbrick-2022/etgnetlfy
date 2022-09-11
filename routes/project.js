@@ -5,6 +5,7 @@ const taskSchema = require('../models/taskschema')
 const taskreport = require('../models/taskreport')
 require('./admin')
 const multer = require('multer')
+const {isAuthenticated} = require('../config/passportConfig')
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -33,9 +34,12 @@ function projectrouter(app){
     })
     //for deleting project------
     app.delete('/deleteproject',fetchprojectData().deleteProject);
+
+    //for deleting task from master project-------Add project.ejs
+    app.post('/deleteTask',admincontroller().deleteaddedTask)
     //getting project by id--
     app.get('/project/:id',fetchprojectData().findProjectById);
-    app.post('/addproject/project/',fetchprojectData().getallEmployees);
+    app.get('/addproject/project/',isAuthenticated,fetchprojectData().getallEmployees);
     //for adding tasks in already created project-----
     app.put('/addtask',fetchprojectData().updateProject);
     app.get('/assignedtask',fetchprojectData().assignedTask);
@@ -47,7 +51,7 @@ function projectrouter(app){
     //task updates from the user's side----
     app.post('/submittask', fetchProjectReport().submitProjectData) //posting projectData from employee's side---
     //admin-- get all task by employee--
-    app.get('/taskdetails',admincontroller().fetchtaskDetails)
+    app.get('/taskdetails',isAuthenticated,admincontroller().fetchtaskDetails)
 
     //active to submit
     app.put('/userTask',fetchProjectReport().submitTaskOnTable) //testing
@@ -56,6 +60,10 @@ function projectrouter(app){
     app.delete('/userTask/:id',fetchProjectReport().deletprojectTask)
     //for uploading-------
     app.post("/userTask/uploadphoto",upload.single('myImage'),fetchProjectReport().postProfile)
+
+    // get user task data
+
+    app.post('/taskHistory',fetchProjectReport(). taskhistory)
 }
 
 module.exports = projectrouter

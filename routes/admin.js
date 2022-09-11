@@ -6,6 +6,8 @@ const  path = require('path');
 
 // const multer = require('multer');
 const projectrouter = require('./project');
+const passport = require('passport');
+const { isAuthenticated } = require('../config/passportConfig');
 // const storage = multer.diskStorage({
 // 	destination: function(req, file, callback) {
 // 	  callback(null,path.join(__dirname,'../uploads/'))
@@ -22,18 +24,13 @@ function adminRoute(app){
 let adminLogin = false
 //admin -Get Register---
 app.get('/admin', function (req, res, next) {
-	if (adminLogin == false){
-		return res.render('admin/adminregister.ejs');
-	}else{
-		return res.redirect('/adminlogin')
-	}
+	return res.render('admin/adminregister.ejs');
 	
 });
 
 
 // get admin panel route
 app.get('/adminpanel', function (req, res, next) {
-	if (adminLogin == true){
 		employee.find((err,val)=>{
 			if(err){
 				console.log(err)
@@ -41,69 +38,53 @@ app.get('/adminpanel', function (req, res, next) {
 				return res.render('admin/adminpanel.ejs',{'value':val})
 			}
 		})
-	}else{
-		return res.redirect('/adminlogin')
-	}
-	
 })
 //Get Admin Controls---
 app.get('/admincontrols', function (req, res, next) {
-	if (adminLogin == true){
-		return res.render('admin/admincontrols.ejs')
-	}else{
-		return res.redirect('/adminlogin')
-	}
+	return res.render('admin/admincontrols.ejs')
 })
 
 //Get Add project----
-app.get('/addproject', function (req, res, next) {
-	if (adminLogin == true){
-		project.find({},null,{sort:{'date':1}},(err,projects)=>{	
+app.get('/addproject',isAuthenticated, function (req, res, next) {
 
-			if(err){
-				console.log(err)
-			}else{
-				return res.render('admin/addproject.ejs',{'projects':projects})
+	project.find({},null,{sort:{'date':1}},(err,projects)=>{	
 
-			}
-		})
-		
+		if(err){
+			console.log(err)
+		}else{
+			return res.render('admin/addproject.ejs',{'projects':projects})
 
-	}else{
-		return res.redirect('/adminlogin')
-	}
-	
+		}
+	})
 })
 //Register Login---------
 app.post('/admin', function(req, res, next) {
 	console.log(req.body);
-	var personInfo = req.body;
-	
+	const personInfo = req.body;
 
 
-	if(!personInfo.email || !personInfo.username || !personInfo.password || !personInfo.passwordConf ){
+	if(!personInfo.name || !personInfo.username || !personInfo.password || !personInfo.password){
 		res.send();
 	} else {
 		if (personInfo.password == personInfo.passwordConf) {
 
-			admin.findOne({email:personInfo.email},function(err,data){
+			admin.findOne({username:personInfo.username},function(err,data){
 				if(!data){
-					var d;
+					var c;
 					admin.findOne({},function(err,data){
 
 						if (data) {
-							// console.log(data);
-							d = data.unique_id + 1;
+							console.log("if");
+							c = data.unique_id + 1;
 						}else{
-							d=1;
+							c=1;
 						}
 
 						var newPerson = new admin({
-							unique_id:d,
+							unique_id:c,
 							email:personInfo.email,
 							username: personInfo.username,
 							password: personInfo.password,
-							passwordConf: personInfo.passwordConf
 						});
 
 						newPerson.save(function(err, Person){
@@ -114,58 +95,28 @@ app.post('/admin', function(req, res, next) {
 						});
 
 					}).sort({_id: -1}).limit(1);
-					// req.flash('error','You are registered Successfully!!');
-					res.send({'success':'Registered Successfully'});
-					// return res.redirect('/adminlogin');
+					res.send({"Success":"You are registered,You can login now."});
 				}else{
-					res.send({"Failed":"Email is already In  use."});
+					res.send({"Success":"Email is already used."});
 				}
 
 			});
 		}else{
-			res.send({"Failed ":"password does not match"});
+			res.send({"Success":"password is not matched"});
 		}
 	}
-	next()
 });
 
 app.get('/adminlogin', function (req, res, next) {
-	if (adminLogin == false){
-		return res.render('admin/adminlogin.ejs');
-	}else{
-		return res.redirect('/adminlogin')
-	}
+	
+	return res.render('admin/adminlogin.ejs');
 	
 });
-
-app.post('/adminlogin', function (req, res, next) {
-	if (adminLogin == false){
-		admin.findOne({email:req.body.email},function(err,data){
-			if(data){
-				
-				if(data.password==req.body.password){
-					//console.log("Done Login");
-					req.session.userId = data.unique_id;
-					//console.log(req.session.userId);
-					// res.send({"Success":"Success!"});
-					adminLogin = true;
-					return res.render('admin/admincontrols.ejs');
-					
-				}else{
-					res.send({"Failed":"Wrong password!"});
-				}
-			}else{
-				res.send({"Failed":" Email  not registered!"});
-			}});
-	}else{
-		res.redirect('/admincontrols')
-	}
+//post login admin----
+app.post('/adminlogin',passport.authenticate('local',{failureRedirect:'/adminlogin',successRedirect:'/admincontrols'}));
 	
-	
-});
-
 app.get('/adminprofile', function (req, res, next) {
-	if (adminLogin == true){
+
 		User.findOne({unique_id:req.session.userId},function(err,data){
 			console.log("data");
 			console.log(data);
@@ -176,12 +127,6 @@ app.get('/adminprofile', function (req, res, next) {
 				return res.render('admin/admindata.ejs', {"name":data.username,"email":data.email});
 			}
 		});
-
-	}
-	else{
-		return res.redirect('/adminlogin')
-	};
-	
 });
 
 app.get('/adminlogout', function (req, res, next) {
@@ -232,20 +177,17 @@ app.post('/adminforgetpass', function (req, res, next) {
 });
 
 //employee register--------
-app.get('/register', (req,res)=>{
-	if (adminLogin == true){
-		res.render('employee/index.ejs')
-	}
+app.get('/register',isAuthenticated,(req,res)=>{
+	res.render('employee/index.ejs')
 })
 
 //register-----
-app.post('/',function(req, res, next) {
-	if (adminLogin == true){
+app.post('/',isAuthenticated,function(req, res, next) {
 	const  personInfo = req.body;
-	const person = req.files.awtar
+	// const person = req.files.awtar
 
 	if(!personInfo.firstName || !personInfo.lastName || !personInfo.designation|| !personInfo.teamLeader  
-		||!personInfo.date_of_birth || !personInfo.email||!person ){
+		||!personInfo.date_of_birth || !personInfo.email){
 		res.send();
 	} else {
 		employee.findOne({email:personInfo.email},function(err,data){
@@ -279,7 +221,7 @@ app.post('/',function(req, res, next) {
 							date_of_birth:personInfo.date_of_birth,
 							email:personInfo.email,
 							password: Password,
-							awtar:person.mv							
+							// awtar:person.mv							
 						});
 						newPerson.save(function(err, Person){
 							if(err)
@@ -296,9 +238,7 @@ app.post('/',function(req, res, next) {
 
 			});
 	}
-}else{
-	return res.redirect('/adminlogin');
-}
+
 });
 // Update a new idetified user by user id
 app.put('/updateuser/:id',(req,res)=>{
@@ -326,24 +266,17 @@ app.put('/updateuser/:id',(req,res)=>{
 })	
 
 // Delete a user with specified user id in the request
-app.delete("/deleteuser/:id", (req, res)=>{
-    const unique_id = req.body.unique_id;
+app.delete('/deleteuser/:id',isAuthenticated,  (req,res)=>{
+	User.findByIdAndRemove(req.params.id,(err)=>{
+		if (err){
+			res.redirect('/adminpanel')
+		}else{
+			res.redirect('/adminpanel')
+		}
+	})
+	
 
-    employee.findByIdAndDelete(id)
-        .then(data => {
-            if(!data){
-                res.status(404).send({ message : `Cannot Delete with id ${unique_id}. Maybe id is wrong`})
-            }else{
-                res.send({
-                    message : "User was deleted successfully!"
-                })
-            }
-        })
-        .catch(err =>{
-            res.status(500).send({
-                message: "Could not delete User with id=" + id
-            });
-        });
+	
 })
 
 }

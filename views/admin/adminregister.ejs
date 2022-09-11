@@ -12,26 +12,26 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 
-			$( "#form2" ).submit(function(event) {
+			$( "#form1" ).submit(function(event) {
 				event.preventDefault();
 
 				$.ajax({
 					type: 'POST',
 					url: '/admin',
-					data: $('#form2').serialize(),
+					data: $('#form1').serialize(),
 					dataType: "json",
 					success: function(response){
 						//alert("a");
 						//console.log(response.Success);
-						$('#form2')[0].reset();
+						$('#form1')[0].reset();
 
-						document.getElementById("check1").innerHTML=response.Success;
+						document.getElementById("check").innerHTML=response.Success;
          					//ADD THIS CODE
          					setTimeout(function(){
-         						document.getElementById("check1").innerHTML="";
+         						document.getElementById("check").innerHTML="";
          					},3000);
          					if (response.Success=="You are regestered,You can login now.") {
-         						document.getElementById("aa1").click();
+         						document.getElementById("aa").click();
          					};
          				},
          				error: function() {
@@ -43,44 +43,37 @@
 </head>
 <body>
 
-	
-
 	<h1>Registration form</h1>
 	<div class="form-container">
-<form name="registerForm" id="form1">
+		<form id="form1" method="post">
 
-<label for="e-mail">E-mail address *</label>
-<input type="text" id="e-mail" name="email" placeholder="john-doe@net.com" required/>
-<p class="error-message"></p>
+			<label for="name">Name *</label>
+			<input type="text" id="e-mail" name="name" placeholder="Enter Your Name" required/>
+			<p class="error-message"></p>
 
-<label for="username">UserName *<E</label>
-<input  type ='text'name='username' placeholder="swapnil123" required=""/>
-<p class="error-message"></p>
-
-
-<label for="password">Password *<E</label>
-<input  type ='password'name='password' placeholder="password" required=""/>
-<p class="error-message"></p>
-
-<label for="passwordconf">passwordConf *<E</label>
-<input  type ='password'name='passwordConf' placeholder="password" required=""/>
-<p class="error-message"></p>
+			<label for="e-mail">E-mail address *</label>
+			<input type="text" id="e-mail" name="username" placeholder="Enter Your Email" required/>
+			<p class="error-message"></p>
 
 
+			<label for="password">Password *<E</label>
+			<input  type ='password'name='password' placeholder="password" required=""/>
+			<p class="error-message"></p>
 
-  <input class="button" type="submit" value="submit" name="submit" />
-</div>
+			<label for="passwordconf">passwordConf *<E</label>
+			<input  type ='password'name='passwordConf' placeholder="password" required=""/>
+			<p class="error-message"></p>
+				<input type="submit" value="Register" class="btn btn-success">
+		</form>
+		</div>
 		
-
-</form>
-		
-		<div class="mssg bg-danger">   
-			<span id="check1"></span>
+		<div class="mssg bg-danger">
+			<span id="check"></span>
 		</div>
 		<div>
 			<span>Already Registered! <a href="/adminlogin">Login</a></span>
 		</div>
-		<div id="LangTable"><a href="/adminlogin" id="aa1"></a>
+		<div id="LangTable"><a href="/adminlogin" id="aa"></a>
 		</div>
 	</div>
 </body>

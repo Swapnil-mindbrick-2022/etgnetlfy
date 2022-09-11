@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+	<meta charset="UTF-8">
+	<title>dataTables Rows Buttons</title>
+	<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+	<link rel='stylesheet prefetch' href='https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css'>
+	<link rel='stylesheet prefetch' href='https://cdn.datatables.net/buttons/1.2.2/css/buttons.bootstrap.min.css'>
+	<link rel="stylesheet" href="../css/styles/index.processed.css">
+	<style>
+		.dt-buttons.btn-group {
+		  position: absolute;
+		  /*bottom: 0;*/
+		  padding-bottom: 3px;
+		}
+		.dt-buttons.btn-group a {
+		  border-color: #37BC9B;
+		  background-color: #37BC9B;
+		  color: #FFF;
+		}
+		.dt-buttons.btn-group a:hover {
+		  border-color: #48CFAD;
+		  background-color: #48CFAD;
+		  color: #FFF !important;
+		}
+    </style>
+</head>
+<h3 style ="display: flex; justify-content: center;">
+    TASK DATA
+</h3>
+<body>
+<table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+	<thead>
+		<tr>
+			<th>Date</th>
+			<th>Project</th>
+			<th>Task</th>
+			<th>Duration</th>
+			
+		
+	</thead>
+	<tbody>
+        <% history.forEach((task)=>{%>
+            <tr>
+                <td><%= task.date %></td>
+                <td><%=task.projectName %></td>
+                <td><%= task.task %></td>
+                <td><%= task.timetaken %></td>
+                
+            </tr>
+            
+
+        <%}) %>
+		
+	</tbody>
+</table>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Row information</h4>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<script src='https://code.jquery.com/jquery-1.12.4.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.js'></script>
+<script src='https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js'></script>
+<script src='https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.js'></script>
+<script src='https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.js'></script>
+<script src='https://cdn.datatables.net/buttons/1.5.1/js/buttons.bootstrap.js'></script>
+<script src='https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.js'></script>
+<script  src="../css/scripts/index.js"></script>
+
+
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+<script src='https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js'></script>
+<script src='https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.18/pdfmake.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.18/vfs_fonts.js'></script>
+<script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js'></script>
+
+</body>
+
+</html>

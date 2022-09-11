@@ -1,6 +1,7 @@
 const adminRoute = require("../../routes/admin");
 const taskreport = require('../../models/taskreport');
 const imageModel = require('../../models/profilepic');
+const flash = require('connect-flash')
 
 // const moment = require('moment')
 //  data fetch from project scheema and user schema 
@@ -98,9 +99,9 @@ function fetchprojectData(){
                         console.log(err)
             
                     }else{
-                        const projectName = req.body.projectName
+                        // const projectName = req.body.projectName
 
-                        project.findOne({projectName: projectName},(err,data)=>{
+                        project.find({},(err,data)=>{
                             if (err){
                                 res.send(err)
                             }else{
@@ -152,107 +153,66 @@ function fetchprojectData(){
                  
         },
         //employee task Updates------
-        async taskupdates(req,res){
-            const gettask = await req.body
-            res.send(gettask)
-        },
-//assigning task---------
-// async assigntask(req,res){
-//     const getTask = req.body
+        async assigntask(req,res){
+            const gettask = req.body
+            taskSchema.findOne(
+                {
+                    projectName: {$in : gettask.projectName},
+                    assignedTo: {$in : gettask.employee}
+                },(err,data)=>{
+                    if (data){
+                        taskSchema.findOne(
+                            {
+                                projectName: {$in : gettask.projectName},
+                                assignedTo: {$in : gettask.employee},
+                                task:{$in: gettask.task}
+                            },(err,success)=>{
+                                if (success){
+                                    // req.flash('error_msg', 'task allready added');
+                                    res.redirect('/addproject/project')
+                                    
+                                }else{
+                               
+                                    taskSchema.updateOne(
+                                        {
+                                            projectName: {$in : gettask.projectName},
+                                            assignedTo: {$in : gettask.employee}
+                                
+                                        },
+                                        {$push:{task: gettask.task}}).then(
+                                            res.redirect('/addproject/project')
+                                        )
+                                }
+                            }
 
-//     if (getTask){
-//         const ifProject = taskSchema.findOneAndUpdate(
-//             {projectName: getTask.projectName},
-//             {$push:{task:getTask.task}},
-//             function(err,success){
-//                 if (err){
-//                     console.log(getTask)
-//             const assignTask = new taskSchema({
-//             projectName: getTask.projectName,
-//             task: getTask.task,
-//             assignedTo: getTask.employee,
-//             taskStatus: 'active',
-            
-//         });
-//         const val = assignTask.save();
-//         console.log(val)
-//         res.redirect('addproject/project')
-
-//                 }else{
-//                     res.redirect('/addproject/project')
-//                 }
-//             }
-//         )
-        
-//     }else{
-//         console.log(ifProject)
-//         res.redirect('addproject/project')
-//     }
-// },
-async assigntask(req,res){
-    const getTask = req.body
-    if (getTask){
-
-        taskSchema.findOne({projectName: getTask.projectName},(err,project)=>{
-            if(project){
-                taskSchema.findOneAndUpdate(
-                    {projectName: getTask.projectName},
-                    {$push: {task: getTask.task}},
-                    (err,success)=>{if(err){
-                        console.log(err)
+                        )
+                       
+                        // console.log(data)
                     }else{
-                        console.log(success)
+                        const assign = new taskSchema({
+                            projectName: gettask.projectName,
+                            task: gettask.task,
+                            assignedTo: gettask.employee,
+                            taskStatus: "active",
+                        })
+                        assign.save((err,success)=>{
+                            if (err){
+                                res.redirect('/addproject/project')
+                            }else{
+                                console.log(success)
+                                res.redirect('addproject/project')
+                            }
+                        })
+                       
                     }
                 }
-                )
-            }else{
-                // const employee = getTask.assignedTo
-                // User.findOne({username:employee},(err,lead)=>{
-                //     if(err){
-                //         res.redirect('addproject/project')
-                //     }else{
-                //         console.log(lead)
-                        const assignTask = new taskSchema({
-                            projectName: getTask.projectName,
-                            task: getTask.task,
-                            assignedTo: getTask.employee,
-                            // teamLead: lead.teamLeader,
-                            taskStatus: 'active'
-                            
-                        });
-                        const value = assignTask.save();
-                        console.log(value)
-                        res.redirect('addproject/project')
-                    // }
-                // })
+        
+            ) 
                 
-            }
-        })
-    // }else{
-    //     res.redirect('/addproject/project')
-    // }
-
-    //     console.log(getTask)
-    //     const assignTask = new taskSchema({
-    //         projectName: getTask.projectName,
-    //         task: getTask.task,
-    //         assignedTo: getTask.employee,
-    //         taskStatus: 'active',
-            
-    //     });
-    //     const val = await assignTask.save();
-    //     console.log(val)
-    //     res.redirect('addproject/project')
-
-    // }else{
-    //     res.redirect('addproject/project')
-    }
-    
-    
-    // res.send(val)
-
-
-    },
+                
+        
+            },
+   
         async sessionsave(req,res){
             let assignTask = req.body
             if (assignTask){

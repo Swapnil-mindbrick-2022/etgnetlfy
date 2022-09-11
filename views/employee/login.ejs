@@ -29,9 +29,13 @@
 
 						document.getElementById("check").innerHTML=response.Success;
          					//ADD THIS CODE
-         					setTimeout(function(){
-         						document.getElementById("check").innerHTML="";
-         					},3000);
+         					// setTimeout(function(){
+         					// 	document.getElementById("check").innerHTML="";
+								
+          							
+		  
+
+         					// },3000);
          					if (response.Success=="Success!") {
          						document.getElementById("aa").click();
          					};
@@ -42,10 +46,26 @@
 			});
 
 		});
+		
 	</script>
 </head>
 <body>
+	
+		
+	
 	<div class="container">
+		
+		<section class="pt-5  bg-skyblue inner-header"style ='width:100%'>
+			<div class="container" >
+				<div class="row" >
+					<div class="col-md-12 text-center" >
+						<h1 class="headings">EMPLOYEE TRACKER</h1>
+						
+					</div>
+				</div>
+			</div>
+			</section>
+
 		<main class="signup-container">
 		  <h1 class="heading-primary">Log in<span class="span-blue">.</span></h1>
 	  
@@ -61,7 +81,7 @@
 			  <span class="label">Password *</span>
 			  <span class="input-icon input-icon-password" data-password><i class="fa-solid fa-eye"></i></span>
 			</label>
-			<button type="submit" class="btn btn-login  btn-success" class="form-control">Login</button>
+			<button type="submit" class="btn btn-login  btn-success"  onClick="history.go(1)"class="form-control">Login</button>
 		  </form>
 		 
 		</main>
@@ -71,11 +91,15 @@
 		<div id="LangTable"><a href="/profile" id="aa"></a>
 		</div>
 		
+		
 		<!-- <div class="welcome-container">
 		  <h1 class="heading-secondary"> <span class="lg">Please Log-In To Continue!</span></h1>
-		  <!-- <img src="../css/img/bg2.jpg" alt=""> -->
+		  <img src="../css/img/bg2.jpg" alt="">
 		</div> -->
 	  </div>
+	  <div class="loader-wrapper">
+		<span class="loader"><span class="loader-inner"></span></span>
+	</div>
 	<script>
 		const eyeClick = document.querySelector("[data-password]");
 		const password_elem = document.getElementById("password");
@@ -89,6 +113,16 @@
 			password_elem.type = "password";
 		}
 		};
+
+
+
+		
+
+
+		$(window).on("load",function(){
+          $(".loader-wrapper").fadeOut("slow");
+		  
+        })
 
 	</script>
 	</div>

@@ -145,6 +145,25 @@ function fetchProjectReport(app){
             })
 
        
+        },
+        async taskhistory(req,res){
+            const username = req.body.username
+            console.log(username)
+            await taskreport.find({assignedTo:username},(err,result)=>{
+
+                if(err){
+                    console.log(err)
+                }
+                else{
+                    const history = result.filter((value)=>{
+
+                        return value.taskStatus=='submit'
+
+                    })
+                    res.render('employee/taskdata.ejs',{'history':history})
+                    // res.send(history)
+                }
+            })
         }
     }
    

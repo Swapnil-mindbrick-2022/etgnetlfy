@@ -16,6 +16,50 @@ th, td {
     border: 1px solid black;
     padding: 5px;
 }
+.loader-wrapper {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #242f3f;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+.loader {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  position: relative;
+  border: 4px solid #Fff;
+  animation: loader 2s infinite ease;
+}
+.loader-inner {
+  vertical-align: top;
+  display: inline-block;
+  width: 100%;
+  background-color: #fff;
+  animation: loader-inner 2s infinite ease-in;
+}
+
+@keyframes loader {
+  0% { transform: rotate(0deg);}
+  25% { transform: rotate(180deg);}
+  50% { transform: rotate(180deg);}
+  75% { transform: rotate(360deg);}
+  100% { transform: rotate(360deg);}
+}
+
+@keyframes loader-inner {
+  0% { height: 0%;}
+  25% { height: 0%;}
+  50% { height: 100%;}
+  75% { height: 100%;}
+  100% { height: 0%;}
+}
+
+
 </style>
 <script>
 // 	$(document).ready(function(){
@@ -65,12 +109,28 @@ th, td {
 			  <i class="fas fa-bars"></i>
 			</span>
 		  </button>
+		
+		  
 		  <div class="collapse navbar-collapse" id="navbarExample01">
+			<form action ='/taskHistory' method='post'>
+				<input name='username' value = "<%= Data.username %>" type="text" hidden>
+				
+				<button type="submit" class="btn btn-warning" style ="margin-left:900px;height:3rem; 
+				width: 8.5rem;  font-size: 19px; border-radius: 15px; width: 150px; " >
+				Task History
+					<!-- <a class="nav-link" aria-current="page" href="/taskHistory" >
+						history</a> -->
+				</button>
+			
+			</form>
+			
 			<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 			  <li class="nav-item active">
+			
 				<a class="nav-link" aria-current="page" href="/logout" alert='pleased submit your task before logout'
 				style ='height:5rem; width: 8.5rem; color:red; font-size: 19px;' onclick="myFunction()">
 					LOGOUT</a>
+					
 				<p id="demo"></p>
 			  </li>
 			</ul>
@@ -83,43 +143,58 @@ th, td {
 			<div id="childProfile" class="col-xs-6 col-xs-offset-1 col-sm-2 col-sm-offset-0">
 				<fieldset>
 				<ul  style="font-size: 13px; font-weight: bold;text-transform: uppercase; "class='userlist' >
-				
+					<!-- <button onclick=" hidetableform()" type="button" class="btn " data-toggle="modal"
+					style ="background-color: aliceblue; float: right;margin-top: -65px;" data-target="#form"> 
+					<svg style="background-color: red" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16" >
+						<path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+					  </svg>
+					  </button>
+				 -->
 					<% if (profilepic == null){%>
 						<li><img src=' ' style="width:9.2rem ;height:6rem; border-radius: 50%; margin-top: -120px; margin-left: -10px;"></li>
 
 					<%  }else{%>
-						<li><img src='../css/img/<%= profilepic.img %>' style="width:9.2rem ;height:6rem; border-radius: 50%; margin-top: -120px; margin-left: -10px;"></li>
+						<li><img src='../css/img/<%= profilepic.img %>' style="width:18rem ;height:9rem; border-radius: 50%; margin-top: -120px; margin-left: -10px;"></li>
 					<%} %>
+
 					
-					<li style="margin-bottom: 5px;"> <%= Data.firstName + Data.lastName %></li>
+					<li style="margin-bottom: 5px;"> <%= Data.firstName +" " + Data.lastName %></li>
 					<li style="margin-bottom: 10px;" > <%= Data.designation %></li>
 					<li>TeamLeader : <%= Data.teamLeader %></li>
 					<li style="margin-top:0.9rem">Login time :<span id ='date-time'> </span> </li>
-					<form action="/userTask/uploadphoto" enctype="multipart/form-data" method="post">
-						<input type="file" name="myImage" accept="image/*">
-						<input type="submit" value="Upload Photo">
-					</form>
+					
+		
+
+
 				</ul>
+				<form style="position: absolute; display: none;"action="/userTask/uploadphoto" 
+					enctype="multipart/form-data" method="post" id="uploadpic">
+					<input type="file" name="myImage" accept="image/*">
+					<input type="submit" value="Upload Photo">
+				</form>
 			</fieldset>
+			
 			</div>
+			
+			
 			<!-- <h1>Welcome :- <%= Data.firstName %> </h1> -->
 			<div id="chooseTask"    class="col-xs-9 col-sm-3">
 				<!-- //fr adding task in table -->
 				<form action="/submittask" style="margin-top: 3.5rem;display: block;"  id="taskStatus" 
 				 method="POST">
-					<h3>SELECT TASK</h3> 
+					<h2 style="font-weight: bold">SELECT TASK</h2> 
 					<br>
 					<label for="" style="font-size: 1.2rem; ;">Project :</label>
-								<select id ="parentselect" name="projectName" style="font-size: 13px; margin: 15px">
+								<select id ="parentselect" name="projectName" style="font-size: 13px; margin: 15px" required>
 									<%projects.forEach((project)=>{%>
 									<option data-state="<%= project.projectName %>" value="<%= project.projectName %>"
 										 style='color: black;'><%= project.projectName %></option>
 									<%})%>
 								</select>
 								<br>
-						<label style=" margin-right: 1.5rem; font-size: 13px;"for="">Task :</label>
+						<label style=" margin-right:28px; font-size: 13px;"for="">Task :</label>
 						
-						<select style="font-size: 1.2rem; margin: 0.4rem; "  id ="childselect" name="task">
+						<select style="font-size: 1.2rem; margin: 0.4rem; margin-right:12px;"  id ="childselect" name="task" required>
 							<%projects.forEach((project)=>{%>
 								<% project.task.forEach((task)=>{%>
 							<option data-state="<%= project.projectName %>" value="<%=task%>"><%= task%></option>
@@ -127,10 +202,10 @@ th, td {
 						<%})%>
 						</select>
 						<br>
-						<label style="font-size: 1.3rem; margin: 1.2rem;" for="duration">Duration :</label>
+						<label style="font-size: 1.3rem; margin-left:10px" for="duration">Duration :</label>
 						
-							<select style="font-size: 1.3rem; margin-right: 2.25rem; margin-top: 2rem; color: black;" id ='duration'  name="timetaken">
-								<option value=""></option>
+							<select style="font-size: 1.3rem; margin-right: 20px; margin-top: 2rem; color: black;" id ='duration'  name="timetaken" required>
+								
 								<option value="1 hour">1 hour</option>
 								<option value="2 hour">2 hour</option>
 								<option value="3 hour">3 hour</option>
@@ -169,7 +244,7 @@ th, td {
 							<th class="tborder">Date</th>
 							<th class="tborder">Project</th>
 							<th class="tborder">Task</th>
-							<th class="tborder">Duration </th>
+							<th class="tborder" >Duration </th>
 							<th class="tborder">Action</th>
 							</tr>
 						</thead>
@@ -184,7 +259,7 @@ th, td {
 										<td class='tbcolor' scope ="row"><%= pendingTask[i].timetaken%></td>
 										<td class='tbcolor'  scope ="row">
 										<form action="/userTask/<%= pendingTask[i].id %>?_method=DELETE" method="POST">
-											<button class="btn btn-danger">Delete</button>
+											<button style="background-color: white; border:0px white"> <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></button>
 										</form>
 									</td>
 									</tr>
@@ -213,16 +288,40 @@ th, td {
 			</div>
 		</div>
 	</div>
-	
+	<div class="loader-wrapper">
+		<span class="loader"><span class="loader-inner"></span></span>
+	</div>
 
 	
 
 	<script type="text/javascript">
-// 		const srno = document.getElementById("srno").value++;
-// 		const button= document.getElementById("taskStatus")
-// button.addEventListener("click", function(evt) {
-// 	srno++
-// })
+		$(window).on("load",function(){
+          $(".loader-wrapper").fadeOut("slow");
+		  
+        })
+
+document.getElementById('submittask').addEventListener('click',()=>{
+	alert('Task Submitted Successfully')
+})
+// for uplaod image form 
+const btn = document.getElementById("form")
+const uploadpic = document.getElementById("uploadpic")
+
+function hidetableform() {
+
+if(uploadpic.style.display==="none"){
+	
+	uploadpic.style.display="block"	
+}else{
+	uploadpic.style.display="none"
+	// window.parent.location.reload();
+}
+
+
+}
+
+
+
 
  function hidetable() {
 

@@ -10,6 +10,22 @@ function admincontroller(app){
                 }
             })
             // res.render()
+        },
+        async deleteaddedTask(req,res){
+            project.update(
+                { projectName: req.body.projectName }, 
+                { $pull: { task: req.body.taskName } },
+                function(err,success){
+                    if (err){
+                        res.send(err)
+                    }else{
+                        res.redirect('/addproject')
+                    }
+                }
+                // false, // Upsert
+                // true, // Multi
+            )
+    
         }
         
     }

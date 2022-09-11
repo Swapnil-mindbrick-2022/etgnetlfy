@@ -1,0 +1,12 @@
+/**
+ * index.scss
+ * - Add any styles you want here!
+ */
+
+body {
+  margin: 2em;
+}
+
+td:last-child {
+  text-align: center;
+}

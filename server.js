@@ -13,11 +13,14 @@ const  methodoverride  = require('method-override')
 app.use(methodoverride('_method'))
 const multer = require('multer');
 const flash = require('connect-flash')
+const passport = require('passport')
+const {initializingPassport, isAuthenticated} = require('./config/passportConfig.js')
 // const DB = "mongodb+srv://Mindbrick:password@mindbrick.zdiyp2p.mongodb.net/employe/?retryWrites=true&w=majority"
 // const DB="mongodb://localhost:27017/swapnil"
 // const db= "mongodb+srv://<DB_USER_NAME>:<DB_PASSWORD>@cluster0-vatbg.mongodb.net/registrationFormHeruko?retryWrites=true&w=majority"
+// const DB= "mongodb+srv://shu810:shu810@cluster0.xpyca.mongodb.net/swapnil?retryWrites=true&w=majority"
 const DB= "mongodb+srv://Mindbrick:Password@mindbrick.zdiyp2p.mongodb.net/swapnil?retryWrites=true&w=majority"
-app.use(flash())
+
 mongoose.connect(DB, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -43,7 +46,16 @@ app.use(session({
     cookie: {maxAge:1000*60*60*24}
   })
 }));
-
+initializingPassport(passport)
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(flash())
+app.use(function(req, res, next) {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  next();
+});
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');	

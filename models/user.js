@@ -36,6 +36,8 @@ userSchema = new Schema( {
 	
 	lastLogin : { type : Date, default: Date.now }
 })
+
+
 User = mongoose.model('User', userSchema);
 
 module.exports = User;

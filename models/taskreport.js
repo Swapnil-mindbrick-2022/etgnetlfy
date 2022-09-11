@@ -17,7 +17,8 @@ taskReportSchema = new Schema( {
         required: true
     },
     timetaken: {
-        type:String,
+        type:String
+        
     },
     teamleader:{
         type:String,
