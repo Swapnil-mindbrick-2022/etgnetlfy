@@ -21,7 +21,7 @@ const { isAuthenticated } = require('../config/passportConfig');
 //   }).single("awtar")
 
 function adminRoute(app){
-let adminLogin = false
+
 //admin -Get Register---
 app.get('/admin', function (req, res, next) {
 	return res.render('admin/adminregister.ejs');
@@ -30,7 +30,7 @@ app.get('/admin', function (req, res, next) {
 
 
 // get admin panel route
-app.get('/adminpanel', function (req, res, next) {
+app.get('/adminpanel', isAuthenticated,function (req, res, next) {
 		employee.find((err,val)=>{
 			if(err){
 				console.log(err)
@@ -40,7 +40,7 @@ app.get('/adminpanel', function (req, res, next) {
 		})
 })
 //Get Admin Controls---
-app.get('/admincontrols', function (req, res, next) {
+app.get('/admincontrols',isAuthenticated,function (req, res, next) {
 	return res.render('admin/admincontrols.ejs')
 })
 
