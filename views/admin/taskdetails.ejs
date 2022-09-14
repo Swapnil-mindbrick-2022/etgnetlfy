@@ -52,8 +52,8 @@
       <tbody>
         <% taskreport.forEach((report)=>{%>
           <tr>
-            <td><%=report.date%></td>
-            <td><%=report.assignedTo%></td>
+            <td><%= report.date.toString().substring(0,16)%></td>
+            <td><%= report.assignedTo%></td>
             <td><%= report.projectName%></td>
             <td><%= report.task%></td>
             <td><%= report.timetaken%></td>

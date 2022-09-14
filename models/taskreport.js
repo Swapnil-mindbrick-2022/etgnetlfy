@@ -31,8 +31,9 @@ taskReportSchema = new Schema( {
     },
 
     date:{
-        type: String,
-        required:true
+        type: Date,  
+        default: Date.now
+        
         
     }
 

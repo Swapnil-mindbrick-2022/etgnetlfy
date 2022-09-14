@@ -98,7 +98,7 @@
                 <td><%= student.date_of_birth %></td>
                 <td><%= student.email %></td>
                 <td><%= student.password %></td>
-                <td><%= student.lastLogin%></td>
+                <td><%= student.lastLogin.toString().substring(0,16)%></td>
             
                 <td>
                   <form action="/deleteuser/<%= student.id %>?_method=DELETE" method="POST">

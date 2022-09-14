@@ -38,12 +38,12 @@ db.once('open', function () {
 });
 app.use(session({
   secret: 'work hard',
-  resave: true,
+  resave: false,
   saveUninitialized:false,                                              
   store: new MongoStore({
     mongooseConnection: db,
     auto_reconnect: true,
-    cookie: {maxAge:1000*60*60*24}
+    cookie: {maxAge:1000*60*60*24}//24hrs------
   })
 }));
 initializingPassport(passport)

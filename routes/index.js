@@ -6,17 +6,12 @@ const fetchprojectData = require('../controllers/employee/task')
 
 
 function userRoute(app){
-let userLogin = false;
+
 //get login
 app.get('/', function (req, res, next) {
-	if(userLogin==false){
+
 		return res.render('employee/login.ejs');
 
-	}
-	else {
-		res.redirect('/userTask')
-
-	}
 });
 //get user task
 // app.get('/userTask',fetchprojectData().findProjects)
@@ -28,11 +23,8 @@ app.get('/', function (req, res, next) {
 
 //get user
 app.get('/login', function (req, res, next) {
-	if (userLogin==false){
-		return res.render('employee/login.ejs');
-	}else{
-		res.redirect('/userTask')
-	}
+
+	return res.render('employee/login.ejs');
 	
 });
 //post login
@@ -49,17 +41,14 @@ app.post('/login', function (req, res, next) {
 					if (err){
 						console.log('time not updated')
 						res.send({"Success":"Success!"});
-						userLogin = true
 
 					}else{
 						console.log(data,'time updated successfully')
 						res.send({"Success":"Success!"});
-						userLogin = true
 					}
 				})
 			}else{
 				res.send({"Failed":"Wrong password!"});
-				userLogin = false
 			}
 		}else{
 			res.send({"Failed":" Email  not registered !"});
@@ -68,7 +57,6 @@ app.post('/login', function (req, res, next) {
 });
 //get profile--
 app.get('/profile', function (req, res, next) {
-	if(userLogin==true){
 		console.log("profile");
 	User.findOne({unique_id:req.session.userId},function(err,data){
 		console.log("data");
@@ -81,15 +69,9 @@ app.get('/profile', function (req, res, next) {
 			return res.redirect('/userTask');
 		}
 	});
-
-	}else{
-		res.render('employee/login.ejs');
-	}
-	
 });
 //get Logout---
 app.get('/logout', function (req, res, next) {
-	if(userLogin==true){
 		let pendingTask = req.session.pending
 
 		if (pendingTask  > 0){
@@ -105,10 +87,7 @@ app.get('/logout', function (req, res, next) {
 				}
 			});
 		}
-	}
-	else{
-		res.redirect('/');
-	}
+	
     // delete session object
    
 

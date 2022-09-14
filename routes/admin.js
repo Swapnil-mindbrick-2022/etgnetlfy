@@ -113,7 +113,17 @@ app.get('/adminlogin', function (req, res, next) {
 	
 });
 //post login admin----
-app.post('/adminlogin',passport.authenticate('local',{failureRedirect:'/adminlogin',successRedirect:'/admincontrols'}));
+app.post('/adminlogin',passport.authenticate('local',{failureRedirect:'/adminlogin',successRedirect:'/admincontrols'}),(err,success)=>{
+	if (success){
+		let objid = req.session.passport
+
+		admin.findOne({_id:objid.user},(err,user)=>{
+			if (user){
+				req.session.userid = req.user
+			}
+		})
+	}	
+});
 	
 app.get('/adminprofile', function (req, res, next) {
 
@@ -224,14 +234,21 @@ app.post('/',isAuthenticated,function(req, res, next) {
 							// awtar:person.mv							
 						});
 						newPerson.save(function(err, Person){
-							if(err)
+							if(err){
 								console.log(err);
-							else
+							}
+							else{
 								console.log('Success');
-						});
+								// res.redirect('/adminpanel')
 
+							}
+								
+							
+						});
+						
 					}).sort({_id: -1}).limit(1);
 					res.send({"Success":"You are registered,You can login now."});
+					// res.redirect('/adminpanel')
 				}else{
 					res.send({"Failed":"Email is already used."});
 				}

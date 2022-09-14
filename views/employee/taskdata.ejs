@@ -43,7 +43,7 @@
 	<tbody>
         <% history.forEach((task)=>{%>
             <tr>
-                <td><%= task.date %></td>
+                <td><%= task.date.toString().substring(0,16)%></td>
                 <td><%=task.projectName %></td>
                 <td><%= task.task %></td>
                 <td><%= task.timetaken %></td>

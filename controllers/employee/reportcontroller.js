@@ -21,14 +21,14 @@ function fetchProjectReport(app){
                         }else{
                             console.log(emp)
                             if (reportData){
-                                const zeroFill = n => {
-                                    return ('0' + n).slice(-2);
-                                }
-                                    const now = new Date();
+                                // const zeroFill = n => {
+                                //     return ('0' + n).slice(-2);
+                                // }
+                                //     const now = new Date();
                     
-                                    // Format date as in mm/dd/aaaa hh:ii:ss
-                                    const dateNow = zeroFill((now.getMonth() + 1)) + '/' + zeroFill(now.getUTCDate()) + '/' 
-                                    + now.getFullYear()
+                                //     // Format date as in mm/dd/aaaa hh:ii:ss
+                                //     const dateNow = zeroFill((now.getMonth() + 1)) + '/' + zeroFill(now.getUTCDate()) + '/' 
+                                //     + now.getFullYear()
                                     
                 
                                 new taskreport({
@@ -36,8 +36,8 @@ function fetchProjectReport(app){
                                     task: reportData.task,
                                     timetaken: reportData.timetaken,
                                     teamleader: emp.teamLeader,  // must have error handling here
-                                    assignedTo: emp.username,
-                                    date: dateNow
+                                    assignedTo: emp.username
+            
                                 })
                                 .save()
                                 .then(console.log).then(res.redirect('/userTask'))
@@ -149,8 +149,11 @@ function fetchProjectReport(app){
         async taskhistory(req,res){
             const username = req.body.username
             console.log(username)
-            await taskreport.find({assignedTo:username},(err,result)=>{
+            await taskreport.find({
+                assignedTo: {$in : username},
+                date: {$gte: new Date((new Date().getTime() - (3 * 24 * 60 * 60 * 1000)))}
 
+            },(err,result)=>{
                 if(err){
                     console.log(err)
                 }
@@ -163,7 +166,7 @@ function fetchProjectReport(app){
                     res.render('employee/taskdata.ejs',{'history':history})
                     // res.send(history)
                 }
-            })
+            }).sort({ "date": -1 })
         }
     }
    
