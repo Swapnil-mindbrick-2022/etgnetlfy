@@ -1,4 +1,4 @@
-
+ const taskschema =require('../../models/taskschema')
 function admincontroller(app){
     return{
         async fetchtaskDetails(req,res){
@@ -26,6 +26,23 @@ function admincontroller(app){
                 // true, // Multi
             )
     
+        },
+        async deleteAssignedTask(req,res){
+            taskschema.update(
+                {_id : {$in : req.body.projectid},
+                task:{$in : req.body.taskName},
+                assignedTo:{$in:req.body.assignedTo}
+                },
+                {$pull:{task:req.body.taskName}},
+                function(err,success){
+                    if (err){
+                        console.log(err)
+                        res.redirect('/addproject/project')
+                    }else{
+                        res.redirect('/addproject/project')
+                    }
+                }
+                )
         }
         
     }

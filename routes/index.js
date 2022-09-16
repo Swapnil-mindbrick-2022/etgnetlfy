@@ -1,24 +1,24 @@
 const User = require('../models/user');
 const multer=require('multer');
-let alert = require('alert')
+// let alert = require('alert')
+const passport = require('passport')
 const project= require('../models/project')
 const fetchprojectData = require('../controllers/employee/task')
+const userAuth = require('../middleware/user')
+
 
 
 function userRoute(app){
 
 //get login
 app.get('/', function (req, res, next) {
-
-		return res.render('employee/login.ejs');
+	return res.render('employee/login.ejs');
 
 });
 //get user task
 // app.get('/userTask',fetchprojectData().findProjects)
 
-	app.get('/userTask',fetchprojectData().getprojects)
-
-
+app.get('/userTask',userAuth,fetchprojectData().getprojects)
 
 
 //get user
@@ -28,50 +28,20 @@ app.get('/login', function (req, res, next) {
 	
 });
 //post login
-app.post('/login', function (req, res, next) {
-	//console.log(req.body);
-	User.findOne({username:req.body.username},function(err,data){
-		if(data){
-			
-			if(data.password==req.body.password){
-				//console.log("Done Login");
-				req.session.userId = data.unique_id
-
-				User.findOneAndUpdate({username:req.username},{lastLogin: Date.now() },(err,data)=>{
-					if (err){
-						console.log('time not updated')
-						res.send({"Success":"Success!"});
-
-					}else{
-						console.log(data,'time updated successfully')
-						res.send({"Success":"Success!"});
-					}
-				})
-			}else{
-				res.send({"Failed":"Wrong password!"});
-			}
-		}else{
-			res.send({"Failed":" Email  not registered !"});
-		}
-	});
-});
+app.post('/login',passport.authenticate('local',{successRedirect:'/userTask',failureRedirect:'/'}));
 //get profile--
-app.get('/profile', function (req, res, next) {
-		console.log("profile");
-	User.findOne({unique_id:req.session.userId},function(err,data){
-		console.log("data");
+app.get('/profile',userAuth,function (req, res, next) {
+		User.findOne({_id:req.user.id},function(err,data){
 		console.log(data);
 		if(!data){
 			res.redirect('/');
 		}else{
-			//console.log("found");
-			// return res.render('data.ejs', {"name":data.firstName + data.lastname,"email":data.email});
 			return res.redirect('/userTask');
 		}
-	});
+	});	
 });
 //get Logout---
-app.get('/logout', function (req, res, next) {
+app.get('/logout',userAuth,function (req, res, next) {
 		let pendingTask = req.session.pending
 
 		if (pendingTask  > 0){
@@ -82,16 +52,13 @@ app.get('/logout', function (req, res, next) {
 				if (err) {
 					return next(err);
 				} else {
-					userLogin = false
 					return res.redirect('/');
 				}
 			});
-		}
-	
-    // delete session object
-   
-
+	}
 });
 
 }
+
 module.exports = userRoute;
+

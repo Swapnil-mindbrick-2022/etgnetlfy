@@ -15,7 +15,7 @@ function fetchProjectReport(app){
                 // const unique = req.session.userId
                 // console.log(unique)
                 // if (unique){
-                    employee.findOne({unique_id:req.session.userId},(err,emp)=>{
+                    employee.findOne({_id:req.user.id},(err,emp)=>{
                         if (err){
                             console.log(err)
                         }else{
@@ -36,8 +36,8 @@ function fetchProjectReport(app){
                                     task: reportData.task,
                                     timetaken: reportData.timetaken,
                                     teamleader: emp.teamLeader,  // must have error handling here
-                                    assignedTo: emp.username
-            
+                                    assignedTo: emp.username,
+                                    // date: dateNow
                                 })
                                 .save()
                                 .then(console.log).then(res.redirect('/userTask'))
@@ -69,7 +69,7 @@ function fetchProjectReport(app){
         async submitTaskOnTable(req,res){
             let pending = req.body
             //if submitting the data from table-----
-            employee.findOne({unique_id:req.session.userId},(err,employee)=>{
+            employee.findOne({_id:req.user.id},(err,employee)=>{
                 if(err){
                     console.log(err)
                 }else{
@@ -117,7 +117,7 @@ function fetchProjectReport(app){
         async postProfile(req,res){
             const data = req.body
             console.log(data)
-            employee.findOne({unique_id:req.session.userId},(err,profilepic)=>{
+            employee.findOne({_id:req.user.id},(err,profilepic)=>{
                 if(err){
                     console.log(err)
                 }
@@ -133,7 +133,8 @@ function fetchProjectReport(app){
                  
                     new imageModel({
                         img:req.file.originalname,
-                        uploadedBy:profilepic.unique_id
+                        uploadedBy:profilepic.id,
+                        username:profilepic.username
                         
                     })
                     .save()
@@ -168,6 +169,7 @@ function fetchProjectReport(app){
                 }
             }).sort({ "date": -1 })
         }
+       
     }
    
 

@@ -1,38 +1,31 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 userSchema = new Schema( {
 	
 	unique_id: Number,
 	firstName: {
 		type: String,
-		required: true
 	},
 	lastName: {
-		type: String,
-		required: true
+		type: String
 	},
 	designation: {
 		type: String,
-		required: true
 	},
 	teamLeader: {
 		type: String,
-		required: true
 	},
 	username:{
 		type: String,
-		required: true
 
 	},
 	date_of_birth:{
 		type : String,
-		required: true
 	},
 	email: String,
 	password: String,
-	
-	img:String,
+	role:String,
 	
 	lastLogin : { type : Date, default: Date.now }
 })

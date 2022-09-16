@@ -13,7 +13,7 @@ function fetchprojectData(){
 	return{
         async getprojects(req,res){
             let profilepic=null
-            imageModel.findOne({uploadedBy:req.session.userId},(err,profile)=>{
+            imageModel.findOne({uploadedBy:req.user.id},(err,profile)=>{
                 if(err){
                     console.log(err)
                 }else{
@@ -27,7 +27,7 @@ function fetchprojectData(){
                     console.log(err)
                 }else{
                     // finding user userProfile
-                    User.findOne({unique_id:req.session.userId},(err,data)=>{
+                    User.findOne({_id:req.user.id},(err,data)=>{
                         if (err){
                             console.log(err)
                         }else{
@@ -94,7 +94,7 @@ function fetchprojectData(){
         },
         //assigned Task----
         async getallEmployees(req,res){
-                await User.find({},(err,employee)=>{
+                await User.find({},(err,emp)=>{
                     if (err){
                         console.log(err)
             
@@ -105,7 +105,7 @@ function fetchprojectData(){
                             if (err){
                                 res.send(err)
                             }else{
-                                admin.findOne({unique_id: req.session.userId},(err,adminName)=>{
+                                User.findOne({_id: req.user.id},(err,adminName)=>{
                                     if (err){
                                         console.log(err)
                                     }else{
@@ -113,6 +113,9 @@ function fetchprojectData(){
                                             if (err){
                                                 console.log(err)
                                             }else{
+                                                let employee = emp.filter((val)=>{
+                                                    return val.role == 'employee'
+                                                })
                                                 res.render("admin/maketeam.ejs",{"employees":employee,
                                                 "project":data,'assignedBy':adminName,"assignedtask":assignedtask})
                                             }

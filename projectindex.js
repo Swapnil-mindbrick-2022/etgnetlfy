@@ -1,4 +1,4 @@
-var taskObj = {
+const taskObj = {
 
     // local storage key
     key: "projects",
@@ -13,16 +13,16 @@ var taskObj = {
         }
 
         // initialize local storage if not already initialized
-        var option = "";
+        const option = "";
         if (localStorage.getItem(this.key) == null) {
             localStorage.setItem(this.key, "[]");
         }
 
         // get stored object from local storage
-        var data = JSON.parse(localStorage.getItem(this.key));
+        const data = JSON.parse(localStorage.getItem(this.key));
 
         // project object
-        var project = {
+        const project = {
             id: data.length,
             name: document.getElementById("add-project").value,
             tasks: []
@@ -49,8 +49,8 @@ var taskObj = {
 
     // get single project using ID
     getProject: function(id) {
-        var projects = this.getAllProjects();
-        for (var a = 0; a < projects.length; a++) {
+        const projects = this.getAllProjects();
+        for (const a = 0; a < projects.length; a++) {
             if (projects[a].id == id) {
                 return projects[a];
             }
@@ -60,10 +60,10 @@ var taskObj = {
 
     // load all projects in dropdown
     loadAllProjects: function () {
-        var projects = taskObj.getAllProjects();
+        const projects = taskObj.getAllProjects();
         projects = projects.reverse();
-        var html = "<option value=''>Select Project</option>";
-        for (var a = 0; a < projects.length; a++) {
+        const html = "<option value=''>Select Project</option>";
+        for (const a = 0; a < projects.length; a++) {
             html += "<option value='" + projects[a].id + "'>" + projects[a].name + "</option>";
         }
         document.getElementById("add-task-project").innerHTML = html;
@@ -74,14 +74,14 @@ var taskObj = {
     addTask: function (form) {
 
         // get selected project and entered task
-        var project = form.project.value;
-        var task = form.task.value;
+        const project = form.project.value;
+        const task = form.task.value;
 
         // add task in project's array
-        var projects = this.getAllProjects();
-        for (var a = 0; a < projects.length; a++) {
+        const projects = this.getAllProjects();
+        for (const a = 0; a < projects.length; a++) {
             if (projects[a].id == project) {
-                var taskObj = {
+                const taskObj = {
                     id: projects[a].tasks.length,
                     name: task,
                     status: "Progress", // Progress, Completed
@@ -111,15 +111,15 @@ var taskObj = {
 
     // show all tasks in table
     showAllTasks: function () {
-        var html = "";
+        const html = "";
 
         // get all projects
-        var projects = this.getAllProjects();
-        for (var a = 0; a < projects.length; a++) {
+        const projects = this.getAllProjects();
+        for (const a = 0; a < projects.length; a++) {
             projects[a].tasks = projects[a].tasks.reverse();
 
             // get tasks in each project
-            for (var b = 0; b < projects[a].tasks.length; b++) {
+            for (const b = 0; b < projects[a].tasks.length; b++) {
                 html += "<tr>";
                     html += "<td>" + projects[a].tasks[b].name + "</td>";
                     html += "<td>" + projects[a].name + "</td>";
@@ -134,9 +134,9 @@ var taskObj = {
                     }
 
                     // get total duration of each task using it's logs
-                    var duration = 0;
-                    for (var c = 0; c < projects[a].tasks[b].logs.length; c++) {
-                        var log = projects[a].tasks[b].logs[c];
+                    const duration = 0;
+                    for (const c = 0; c < projects[a].tasks[b].logs.length; c++) {
+                        const log = projects[a].tasks[b].logs[c];
                         if (log.endTime > 0) {
                             duration += log.endTime - log.startTime;
                         }
@@ -144,17 +144,17 @@ var taskObj = {
 
                     // convert millisecond into hours, minutes and seconds
                     duration = Math.abs((duration / 1000).toFixed(0));
-                    var hours = Math.floor(duration / 3600) % 24;
+                    const hours = Math.floor(duration / 3600) % 24;
                     hours = (hours < 10) ? "0" + hours : hours;
-                    // var days = Math.floor(diff / 86400);
-                    var minutes = Math.floor(duration / 60) % 60;
+                    // const days = Math.floor(diff / 86400);
+                    const minutes = Math.floor(duration / 60) % 60;
                     minutes = (minutes < 10) ? "0" + minutes : minutes;
-                    var seconds = duration % 60;
+                    const seconds = duration % 60;
                     seconds = (seconds < 10) ? "0" + seconds : seconds;
 
                     // show timer if task is already started
                     if (projects[a].tasks[b].isStarted) {
-                        var dataStartedObj = {
+                        const dataStartedObj = {
                             "duration": duration,
                             "project": projects[a].id,
                             "task": projects[a].tasks[b].id
@@ -201,15 +201,15 @@ var taskObj = {
     // get current datetime in proper format (e.g. 2021-06-15 20:53:15)
     getCurrentTimeInTaskStartEndFormat() {
         let current_datetime = new Date();
-        var date = current_datetime.getDate();
+        const date = current_datetime.getDate();
         date = (date < 10) ? "0" + date : date;
-        var month = (current_datetime.getMonth() + 1);
+        const month = (current_datetime.getMonth() + 1);
         month = (month < 10) ? "0" + month : month;
-        var hours = current_datetime.getHours();
+        const hours = current_datetime.getHours();
         hours = (hours < 10) ? "0" + hours : hours;
-        var minutes = current_datetime.getMinutes();
+        const minutes = current_datetime.getMinutes();
         minutes = (minutes < 10) ? "0" + minutes : minutes;
-        var seconds = current_datetime.getSeconds();
+        const seconds = current_datetime.getSeconds();
         seconds = (seconds < 10) ? "0" + seconds : seconds;
         let formatted_date = current_datetime.getFullYear() + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds;
         return formatted_date;
@@ -224,16 +224,16 @@ var taskObj = {
         }
 
         // loop through all projects
-        var formId = self.getAttribute("data-form-id");
-        var form = document.getElementById(formId);
-        var projects = this.getAllProjects();
-        for (var a = 0; a < projects.length; a++) {
+        const formId = self.getAttribute("data-form-id");
+        const form = document.getElementById(formId);
+        const projects = this.getAllProjects();
+        for (const a = 0; a < projects.length; a++) {
 
             // if project matches
             if (projects[a].id == form.project.value) {
 
                 // loop through all tasks of that project
-                for (var b = 0; b < projects[a].tasks.length; b++) {
+                for (const b = 0; b < projects[a].tasks.length; b++) {
 
                     // if task matches
                     if (projects[a].tasks[b].id == form.task.value) {
@@ -275,7 +275,7 @@ var taskObj = {
 
                             // log end time
                             projects[a].tasks[b].ended = this.getCurrentTimeInTaskStartEndFormat();
-                            for (var c = 0; c < projects[a].tasks[b].logs.length; c++) {
+                            for (const c = 0; c < projects[a].tasks[b].logs.length; c++) {
                                 if (projects[a].tasks[b].logs[c].endTime == 0) {
                                     projects[a].tasks[b].logs[c].endTime = new Date().getTime();
                                     break;
@@ -303,7 +303,7 @@ var taskObj = {
                                     projects[a].tasks[b].isStarted = true;
 
                                     // add in log
-                                    var logObj = {
+                                    const logObj = {
                                         id: projects[a].tasks[b].logs.length,
                                         startTime: new Date().getTime(),
                                         endTime: 0
@@ -338,7 +338,7 @@ var taskObj = {
                                     projects[a].tasks[b].isStarted = false;
 
                                     // update end time in log
-                                    for (var c = 0; c < projects[a].tasks[b].logs.length; c++) {
+                                    for (const c = 0; c < projects[a].tasks[b].logs.length; c++) {
                                         if (projects[a].tasks[b].logs[c].endTime == 0) {
                                             projects[a].tasks[b].logs[c].endTime = new Date().getTime();
                                             break;
@@ -397,8 +397,8 @@ var taskObj = {
             if (willDelete) {
 
                 // remove from array and update local storage
-                var projects = this.getAllProjects();
-                for (var a = 0; a < projects.length; a++) {
+                const projects = this.getAllProjects();
+                for (const a = 0; a < projects.length; a++) {
                     if (projects[a].id == self.project.value) {
                         projects.splice(a, 1);
                         localStorage.setItem(this.key, JSON.stringify(projects));
@@ -431,29 +431,29 @@ window.addEventListener("load", function () {
     setInterval(function () {
 
         // increment 1 second in all running tasks
-        var dataStarted = document.querySelectorAll("td[data-started]");
-        for (var i = 0; i < dataStarted.length; i++) {
-            var dataStartedObj = dataStarted[i].getAttribute("data-started");
-            var dataStartedObj = JSON.parse(dataStartedObj);
+        const dataStarted = document.querySelectorAll("td[data-started]");
+        for (const i = 0; i < dataStarted.length; i++) {
+            const dataStartedObj = dataStarted[i].getAttribute("data-started");
+            const dataStartedObj = JSON.parse(dataStartedObj);
             dataStartedObj.duration++;
 
             // convert timestamp into readable format
-            var hours = Math.floor(dataStartedObj.duration / 3600) % 24;
+            const hours = Math.floor(dataStartedObj.duration / 3600) % 24;
             hours = (hours < 10) ? "0" + hours : hours;
-            // var days = Math.floor(diff / 86400);
-            var minutes = Math.floor(dataStartedObj.duration / 60) % 60;
+            // const days = Math.floor(diff / 86400);
+            const minutes = Math.floor(dataStartedObj.duration / 60) % 60;
             minutes = (minutes < 10) ? "0" + minutes : minutes;
-            var seconds = dataStartedObj.duration % 60;
+            const seconds = dataStartedObj.duration % 60;
             seconds = (seconds < 10) ? "0" + seconds : seconds;
             dataStarted[i].innerHTML = hours + ":" + minutes + ":" + seconds;
 
             // update log end time
-            var projects = taskObj.getAllProjects();
-            for (var a = 0; a < projects.length; a++) {
+            const projects = taskObj.getAllProjects();
+            for (const a = 0; a < projects.length; a++) {
                 if (projects[a].id == dataStartedObj.project) {
-                    for (var b = 0; b < projects[a].tasks.length; b++) {
+                    for (const b = 0; b < projects[a].tasks.length; b++) {
                         if (projects[a].tasks[b].id == dataStartedObj.task) {
-                            for (var c = 0; c < projects[a].tasks[b].logs.length; c++) {
+                            for (const c = 0; c < projects[a].tasks[b].logs.length; c++) {
                                 if (c == projects[a].tasks[b].logs.length - 1) {
                                     projects[a].tasks[b].logs[c].endTime = new Date().getTime();
 

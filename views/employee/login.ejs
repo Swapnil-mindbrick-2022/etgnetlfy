@@ -12,40 +12,36 @@
 
 	<script type="text/javascript">
 
-		$(document).ready(function(){
+		// $(document).ready(function(){
 
-			$( "#form" ).submit(function(event) {
-				event.preventDefault();
+		// 	$( "#form" ).submit(function(event) {
+		// 		event.preventDefault();
 
-				$.ajax({
-					type: 'POST',
-					url: '/login',
-					data: $('#form').serialize(),
-					dataType: "json",
-					success: function(response){
-						//alert("a");
-						//console.log(response.Success);
-						$('#form')[0].reset();
+		// 		$.ajax({
+		// 			type: 'POST',
+		// 			url: '/login',
+		// 			data: $('#form').serialize(),
+		// 			dataType: "json",
+		// 			success: function(response){
+		// 				//alert("a");
+		// 				//console.log(response.Success);
+		// 				$('#form')[0].reset();
 
-						document.getElementById("check").innerHTML=response.Success;
-         					//ADD THIS CODE
-         					// setTimeout(function(){
-         					// 	document.getElementById("check").innerHTML="";
-								
-          							
-		  
+		// 				document.getElementById("check").innerHTML=response.Success;
+        //  					//ADD THIS CODE
+        //  					// setTimeout(function(){
+        //  					// 	document.getElementById("check").innerHTML="";
+        //  					// },3000);
+        //  					if (response.Success=="Success!") {
+        //  						document.getElementById("aa").click();
+        //  					};
+        //  				},
+        //  				error: function() {
+        //  				}
+        //  			})
+		// 	});
 
-         					// },3000);
-         					if (response.Success=="Success!") {
-         						document.getElementById("aa").click();
-         					};
-         				},
-         				error: function() {
-         				}
-         			})
-			});
-
-		});
+		// });
 		
 	</script>
 </head>
@@ -68,16 +64,21 @@
 
 		<main class="signup-container">
 		  <h1 class="heading-primary">Log in<span class="span-blue">.</span></h1>
+		  <!-- <form id="form" method="post" >
+			<input type="text" name="username" placeholder="E-mail"  class="form-control" required><br/>
+			<input type="password" name="password" placeholder="Password" required="" class="form-control" required><br/>
+			<input type="submit" value="Login" class="btn btn-success">
+		</form> -->
 	  
 	  
-		  <form  id='form' class="signup-form">
+		  <form  action="/login" class="signup-form" method="post">
 			<label class="inp">
-			  <input type="name"name="username" class="input-text" placeholder="&nbsp;">
+			  <input type="name"name="username" class="input-text" placeholder="&nbsp;" required>
 			  <span class="label">Username *</span>
 			  <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
 			</label>
 			<label class="inp">
-			  <input type="password" name="password" class="input-text" placeholder="&nbsp;" id="password">
+			  <input type="password" name="password" class="input-text" placeholder="&nbsp;" id="password" required>
 			  <span class="label">Password *</span>
 			  <span class="input-icon input-icon-password" data-password><i class="fa-solid fa-eye"></i></span>
 			</label>

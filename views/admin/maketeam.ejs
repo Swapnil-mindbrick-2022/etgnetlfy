@@ -23,6 +23,8 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
 <!-- <link data-require="jqueryui@*" data-semver="1.10.0" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/css/smoothness/jquery-ui-1.10.0.custom.min.css" /> -->
 <script data-require="jqueryui@*" data-semver="1.10.0" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/jquery.dataTables.js" data-semver="1.9.4" data-require="datatables@*"></script>
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.1.0/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.1.0/dist/js/tom-select.complete.min.js"></script>
 <link rel="stylesheet" href="./css/style.css">
   </head>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -52,21 +54,26 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
     <table class="table table-hover table-dark"  >
         <thead style="margin: 0px; padding: 0px">
             <tr >
-                <th scope="row" style="font-size: 25px;text-decoration: underline;">Project Name</th>
+                <th scope="row" style="font-size: 25px;text-decoration: underline;">Project</th>
                 <!-- <th scope="row">Assigned By</th> -->
                 <th scope="row"  style="font-size: 25px;text-decoration: underline;">Task</th>
                 <th scope="row"  style="font-size: 25px;text-decoration: underline;">Assign To</th>
-                <th scope="row"  style="font-size: 25px;text-decoration: underline;">Status</th>
+                <th scope="row"  style="font-size: 25px;text-decoration: underline;">Assign</th>
+              
             </tr>   
         </thead>
         <form action="/assignproject" method="post" id="assignForm" enctype="multipart/form-data"style="margin: 0px; padding: 0px">
             <tbody id="assignedList" style="background-color: black; border: 1px solid white;margin:0px;padding: 0px;">   
                 <tr>
                  
-                    <td  >  
-                      <select name="projectName"id="parentselect" style="width:200px; font-size: 20px; background-color: black;">
+                    <td>  
+                      
+                      <select 
+                      name="projectName"id="parentselect" style="width:200px; height:35px;font-size: 20px; background-color:white;color: black;">
+                        
                         <%project.forEach((ele)=>{%>
-                          <option data-state="<%= ele.projectName %>"  value="<%= ele.projectName %>"><%= ele.projectName %></option>
+                         
+                          <option data-state="<%= ele.projectName %>"  value="<%= ele.projectName %>"><%= ele.projectName %> </option>
                           <%})%>
                       </select>
                     </td>
@@ -74,7 +81,8 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
 
                   
                   <td  >
-                      <select name="task"id="childselect" style="width:200px;font-size: 20px;background-color: black;">
+                      <select 
+                       name="task"id="childselect" style="width:200px;font-size: 20px; height:35px; background-color: white;color: black;">
                         <%project.forEach((ele)=>{%>
                           <% ele.task.forEach((task)=>{%>
                               <option data-state="<%= ele.projectName %>" value="<%=task%>"><%= task%></option>
@@ -83,9 +91,12 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
                       </select>
                   </td>
                       <td>
-                      <select name="employee" style="width:200px;font-size: 20px;background-color: black;">
+                      <select id="select-beast" placeholder="Select a employee..." autocomplete="off"
+                      name="employee" style="width:200px;font-size: 20px;background-color: black!important;" default=" ">
                       <% employees.forEach((employee)=>{%>
-                          <option value="<%= employee.username%>"><%= employee.username%> <span>(<%= employee.firstName %>)</span></option>
+                       
+                          <option value="<%= employee.username%>"><%= employee.username%><span>(<%= employee.firstName %>)</span></option>
+                          
                       <%})%>
                   </select>
               </td>
@@ -112,6 +123,8 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
           <th scope="col" >Project</th>
           <th scope="col">Task</th>
           <th scope="col">Asigned To</th>
+          <th scope="col">Delete</th>
+          
         
           
         </tr>
@@ -125,6 +138,23 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
                             <td class="employeeName"><%= employee.projectName %></td>
                             <td ><%= tasks %></td>
                             <td><%= employee.assignedTo %></td>
+                            <form action="/deleteAssignProject" method="post">
+                              <td>
+                                  <input value="<%= employee.id%>" name="projectid"   type="text" hidden>
+                                  <input value="<%= tasks%>" name="taskName" type="text" hidden>
+                                  <input value="<%=employee.assignedTo%>" name="assignedTo" type="" type="text" hidden>
+                                  <button  style="background-color: white; border: 0px white;" onclick="window.parent.location.reload()" type="submit"> 
+                                  <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
+                                  fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                      <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0
+                                       1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/><path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 
+                                       1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 
+                                       4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                    </svg>
+                                  </button>
+                                  <!-- <button onclick="window.parent.location.reload()" type="submit" class="btn btn-danger">Delete</button> -->
+                              </td>
+                          </form>
                             <!-- <td><%= employee.teamLeader %></td> -->
                         </tr>
                     <% }) %>
@@ -140,6 +170,30 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
 </div> -->
 
     <script>
+      new TomSelect("#select-beast",{
+	create: true,
+	sortField: {
+		field: "text",
+		direction: "asc"
+	}
+});
+// new TomSelect("#parentselect",{
+// 	create: true,
+// 	sortField: {
+// 		field: "text",
+// 		direction: "asc"
+// 	}
+// });
+// new TomSelect("#childselect",{
+// 	create: true,
+// 	sortField: {
+// 		field: "text",
+// 		direction: "asc"
+// 	}
+// });
+
+
+      
 // find and search by range 
 $(function() {
     var oTable = $('#datatable').DataTable({

@@ -14,6 +14,9 @@ var imageSchema = new Schema({
         required: true,
         default: 'user'
     
+    },
+    username:{
+        type: String,
     }
 
 });

@@ -1,13 +1,11 @@
 const moment = require('moment');
-const admin = require('../models/admin');
-const employee = require('../models/user');
+const User = require('../models/user');
 const  path = require('path');
-
-
+const admin = require('../middleware/admin')
 // const multer = require('multer');
 const projectrouter = require('./project');
 const passport = require('passport');
-const { isAuthenticated } = require('../config/passportConfig');
+// const { isAuthenticated } = require('../config/passportConfig');
 // const storage = multer.diskStorage({
 // 	destination: function(req, file, callback) {
 // 	  callback(null,path.join(__dirname,'../uploads/'))
@@ -30,22 +28,26 @@ app.get('/admin', function (req, res, next) {
 
 
 // get admin panel route
-app.get('/adminpanel', isAuthenticated,function (req, res, next) {
-		employee.find((err,val)=>{
+app.get('/adminpanel', admin,function (req, res, next) {
+		let val
+		User.find((err,emp)=>{
 			if(err){
 				console.log(err)
 			}else{
+				val = emp.filter((employee)=>{
+					return employee.role == 'employee'
+				})
 				return res.render('admin/adminpanel.ejs',{'value':val})
 			}
 		})
 })
 //Get Admin Controls---
-app.get('/admincontrols',isAuthenticated,function (req, res, next) {
+app.get('/admincontrols',admin,function (req, res, next) {
 	return res.render('admin/admincontrols.ejs')
 })
 
 //Get Add project----
-app.get('/addproject',isAuthenticated, function (req, res, next) {
+app.get('/addproject',admin, function (req, res, next) {
 
 	project.find({},null,{sort:{'date':1}},(err,projects)=>{	
 
@@ -53,7 +55,6 @@ app.get('/addproject',isAuthenticated, function (req, res, next) {
 			console.log(err)
 		}else{
 			return res.render('admin/addproject.ejs',{'projects':projects})
-
 		}
 	})
 })
@@ -63,15 +64,15 @@ app.post('/admin', function(req, res, next) {
 	const personInfo = req.body;
 
 
-	if(!personInfo.name || !personInfo.username || !personInfo.password || !personInfo.password){
+	if(!personInfo.firstName || !personInfo.lastName || !personInfo.username || !personInfo.password || !personInfo.passwordConf){
 		res.send();
 	} else {
 		if (personInfo.password == personInfo.passwordConf) {
 
-			admin.findOne({username:personInfo.username},function(err,data){
+			User.findOne({username:personInfo.username},function(err,data){
 				if(!data){
 					var c;
-					admin.findOne({},function(err,data){
+					User.findOne({},function(err,data){
 
 						if (data) {
 							console.log("if");
@@ -79,12 +80,13 @@ app.post('/admin', function(req, res, next) {
 						}else{
 							c=1;
 						}
-
-						var newPerson = new admin({
+						var newPerson = new User({
 							unique_id:c,
-							email:personInfo.email,
+							firstName:personInfo.firstName,
+							lastName:personInfo.lastName,
 							username: personInfo.username,
 							password: personInfo.password,
+							role:"admin"
 						});
 
 						newPerson.save(function(err, Person){
@@ -108,22 +110,14 @@ app.post('/admin', function(req, res, next) {
 });
 
 app.get('/adminlogin', function (req, res, next) {
-	
+
 	return res.render('admin/adminlogin.ejs');
+	
+
 	
 });
 //post login admin----
-app.post('/adminlogin',passport.authenticate('local',{failureRedirect:'/adminlogin',successRedirect:'/admincontrols'}),(err,success)=>{
-	if (success){
-		let objid = req.session.passport
-
-		admin.findOne({_id:objid.user},(err,user)=>{
-			if (user){
-				req.session.userid = req.user
-			}
-		})
-	}	
-});
+app.post('/adminlogin',passport.authenticate('local',{failureRedirect:'/adminlogin',successRedirect:'/admincontrols'}));
 	
 app.get('/adminprofile', function (req, res, next) {
 
@@ -187,12 +181,12 @@ app.post('/adminforgetpass', function (req, res, next) {
 });
 
 //employee register--------
-app.get('/register',isAuthenticated,(req,res)=>{
+app.get('/register',admin,(req,res)=>{
 	res.render('employee/index.ejs')
 })
 
 //register-----
-app.post('/',isAuthenticated,function(req, res, next) {
+app.post('/',admin,function(req, res, next) {
 	const  personInfo = req.body;
 	// const person = req.files.awtar
 
@@ -200,7 +194,7 @@ app.post('/',isAuthenticated,function(req, res, next) {
 		||!personInfo.date_of_birth || !personInfo.email){
 		res.send();
 	} else {
-		employee.findOne({email:personInfo.email},function(err,data){
+		User.findOne({email:personInfo.email},function(err,data){
 				if(!data){
 					let dobpswrd = personInfo.date_of_birth.substring(5,7) + personInfo.date_of_birth.substring(8,10);
 					//for Password-----
@@ -213,7 +207,7 @@ app.post('/',isAuthenticated,function(req, res, next) {
 					let userName;
 						userName = personInfo.firstName.charAt(0).toUpperCase() + personInfo.firstName.substring(1,4) + dob
 					var c; 
-					employee.findOne({},function(err,data){
+					User.findOne({},function(err,data){
 
 						if (data) {
 							console.log("if");
@@ -231,24 +225,18 @@ app.post('/',isAuthenticated,function(req, res, next) {
 							date_of_birth:personInfo.date_of_birth,
 							email:personInfo.email,
 							password: Password,
+							role:'employee'
 							// awtar:person.mv							
 						});
 						newPerson.save(function(err, Person){
-							if(err){
+							if(err)
 								console.log(err);
-							}
-							else{
+							else
 								console.log('Success');
-								// res.redirect('/adminpanel')
-
-							}
-								
-							
 						});
-						
+
 					}).sort({_id: -1}).limit(1);
 					res.send({"Success":"You are registered,You can login now."});
-					// res.redirect('/adminpanel')
 				}else{
 					res.send({"Failed":"Email is already used."});
 				}
@@ -265,7 +253,7 @@ app.put('/updateuser/:id',(req,res)=>{
             .send({ message : "Data to update can not be empty"})
     }
 	const id = req.body._id;
-    employee.findByIdAndUpdate(_id, req.body, { useFindAndModify: false})
+    User.findByIdAndUpdate(_id, req.body, { useFindAndModify: false})
         .then(data => {
             if(!data){
                 res.status(404).send({ message : `Cannot Update user with ${id}. Maybe user not found!`})
@@ -283,7 +271,7 @@ app.put('/updateuser/:id',(req,res)=>{
 })	
 
 // Delete a user with specified user id in the request
-app.delete('/deleteuser/:id',isAuthenticated,  (req,res)=>{
+app.delete('/deleteuser/:id',admin,  (req,res)=>{
 	User.findByIdAndRemove(req.params.id,(err)=>{
 		if (err){
 			res.redirect('/adminpanel')

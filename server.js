@@ -14,7 +14,7 @@ app.use(methodoverride('_method'))
 const multer = require('multer');
 const flash = require('connect-flash')
 const passport = require('passport')
-const {initializingPassport, isAuthenticated} = require('./config/passportConfig.js')
+const {initializingPassport} = require('./config/passportConfig.js')
 // const DB = "mongodb+srv://Mindbrick:password@mindbrick.zdiyp2p.mongodb.net/employe/?retryWrites=true&w=majority"
 // const DB="mongodb://localhost:27017/swapnil"
 // const db= "mongodb+srv://<DB_USER_NAME>:<DB_PASSWORD>@cluster0-vatbg.mongodb.net/registrationFormHeruko?retryWrites=true&w=majority"
@@ -38,12 +38,12 @@ db.once('open', function () {
 });
 app.use(session({
   secret: 'work hard',
-  resave: false,
+  resave: true,
   saveUninitialized:false,                                              
   store: new MongoStore({
     mongooseConnection: db,
     auto_reconnect: true,
-    cookie: {maxAge:1000*60*60*24}//24hrs------
+    cookie: {maxAge:1000*60*60*24}
   })
 }));
 initializingPassport(passport)
