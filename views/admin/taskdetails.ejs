@@ -27,11 +27,28 @@
   </head>
   
   <body style="background-color:aqua; margin: 0; padding: 0;">
-    <nav style="background-color: white; margin-top: -20px;padding: 0; height: 80px;">
-      <h2 style="margin-left: 20px; padding: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" class="font-weight-bold">TASK DETAILS</h2>
-    </nav>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: white;">
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav" style ='list-style:none; padding: 13px;'>
+        <li class="nav-item active">
+          <a class="nav-link" href="/admincontrols">Home </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/addproject/project" style="margin-left: 10px;">Assign Task</a>
+        </li>
+        
+        
+      </ul>
+    </div>
+  </nav>
     
 <div>
+  <div style="display: flex; justify-content: center;">
+    <h1 style="color: black;font-weight:bold; text-decoration: underline;">
+      TASK REPORTS
+    </h1>
+  </div>
   <p id="date_filter" style="margin-top: 50px; margin-left: 50px;" >
     <span id="date-label-from" class="date-label">From: </span><input class="date_range_filter date"
      type="text" id="datepicker_from" />

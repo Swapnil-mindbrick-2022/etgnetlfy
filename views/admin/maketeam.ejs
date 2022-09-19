@@ -91,8 +91,13 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
                       </select>
                   </td>
                       <td>
-                      <select id="select-beast" placeholder="Select a employee..." autocomplete="off"
+                        
+                        <input mbsc-input id="my-input" data-dropdown="true" data-tags="true" hidden />
+                      <select id="select-beast" placeholder="Select a employee..." autocomplete="off"multiple
                       name="employee" style="width:200px;font-size: 20px;background-color: black!important;" default=" ">
+                      
+
+                    
                       <% employees.forEach((employee)=>{%>
                        
                           <option value="<%= employee.username%>"><%= employee.username%><span>(<%= employee.firstName %>)</span></option>
@@ -171,10 +176,12 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
 
     <script>
       new TomSelect("#select-beast",{
+        inputElement: document.getElementById('my-input'),
 	create: true,
 	sortField: {
 		field: "text",
-		direction: "asc"
+		direction: "asc",
+    touchUi: false
 	}
 });
 // new TomSelect("#parentselect",{
