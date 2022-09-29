@@ -16,6 +16,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="./css/adminpanel.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg fixed-top navbar-scroll"  >
@@ -46,6 +47,8 @@
 		  </div>
 		</div>
 	  </nav>
+
+    
     <div class="container">
       <div class="table-responsive">
         <div class="table-wrapper">
@@ -69,6 +72,7 @@
                     <label for="selectAll"></label>
                   </span>
                 </th> -->
+                <th>Add Profile</th>
                 <th>firstName</th>
                 <th>lastName</th>
                 <th>designation</th>
@@ -90,6 +94,22 @@
                     <label for="checkbox1"></label>
                   </span>
                 </td> -->
+                <th>
+                	<!-- <button onclick=" hidetableform()" type="button" class="btn " data-toggle="modal"
+					style ="background-color: aliceblue; float: right;margin-top: -65px;" data-target="#form"> 
+					<svg style="background-color: red" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16" >
+						<path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+					  </svg>
+					  </button> -->
+            <form  action="/userTask/uploadphoto" 
+            enctype="multipart/form-data" method="post" id="uploadpic">
+            <input type="file" name="myImage" accept="image/*">
+            <input type="text"value='<%= student.id %>' name ='userid' hidden>
+            <input type="submit" value="Upload Photo">
+          </form>
+            
+                 
+                </th>
                 <td><%= student.firstName %></td>
                 <td><%= student.lastName %></td>
                 <td><%= student.designation %></td>
@@ -99,7 +119,6 @@
                 <td><%= student.email %></td>
                 <td><%= student.password %></td>
                 <td><%= student.lastLogin.toString().substring(0,24)%></td>
-            
                 <td>
                   <form action="/deleteuser/<%= student.id %>?_method=DELETE" method="POST">
                   <button style="background-color: white; border: 0px white;" type = "submit">
@@ -151,6 +170,7 @@
         </div>
       </div>
     </div>
+   
     <!-- Edit Modal HTML
     
     <div id="editEmployeeModal" href ='/updateuser' method="put"> class="modal fade">
@@ -188,6 +208,7 @@
       </div>
     </div> -->
     <!-- Delete Modal HTML -->
+
     <form action="/deleteuser" method="delete" enctype="multipart/form-data" id="deleteEmployeeModal">
     <div  class="modal fade">
       <div class="modal-dialog">
@@ -223,6 +244,20 @@
   
     });
     })
+
+    function hidetableform() {
+
+if(uploadpic.style.display==="none"){
+	
+	uploadpic.style.display="block"	
+}else{
+	uploadpic.style.display="none"
+	// window.parent.location.reload();
+}
+
+
+}
+
     </script>
 </body>
 </html>

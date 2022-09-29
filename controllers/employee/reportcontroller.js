@@ -117,7 +117,7 @@ function fetchProjectReport(app){
         async postProfile(req,res){
             const data = req.body
             console.log(data)
-            employee.findOne({_id:req.user.id},(err,profilepic)=>{
+            employee.findOne({_id:data.userid},(err,profilepic)=>{
                 if(err){
                     console.log(err)
                 }
@@ -139,7 +139,7 @@ function fetchProjectReport(app){
                     })
                     .save()
                     .then(console.log(req.file))
-                    res.redirect('/userTask')
+                    res.redirect('/adminpanel')
                     // res.send('success')
                    
                 }

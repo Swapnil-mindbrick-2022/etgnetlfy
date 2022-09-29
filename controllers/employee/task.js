@@ -118,6 +118,7 @@ function fetchprojectData(){
                                                 })
                                                 res.render("admin/maketeam.ejs",{"employees":employee,
                                                 "project":data,'assignedBy':adminName,"assignedtask":assignedtask})
+                                                // res.send(assignedtask)
                                             }
                                         })
                                         

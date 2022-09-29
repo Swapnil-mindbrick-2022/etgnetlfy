@@ -15,6 +15,7 @@ const multer = require('multer');
 const flash = require('connect-flash')
 const passport = require('passport')
 const {initializingPassport} = require('./config/passportConfig.js')
+// global.__basedir = __dirname + "/..";
 // const DB = "mongodb+srv://Mindbrick:password@mindbrick.zdiyp2p.mongodb.net/employe/?retryWrites=true&w=majority"
 // const DB="mongodb://localhost:27017/swapnil"
 // const db= "mongodb+srv://<DB_USER_NAME>:<DB_PASSWORD>@cluster0-vatbg.mongodb.net/registrationFormHeruko?retryWrites=true&w=majority"
@@ -87,7 +88,7 @@ app.use(function (err, req, res, next) {
 
 
 const PORT = process.env.PORT || 3000;
-const baseurl = "https://brinktracker.herokuapp.com/"
+const baseurl = "https://iding.herokuapp.com/"
 app.listen(PORT, function () {
   console.log('Server is started on http://127.0.0.1:'+baseurl+PORT);
 });

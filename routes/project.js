@@ -9,7 +9,6 @@ const admin = require('../middleware/admin')
 const userAuth = require('../middleware/user')
 // const {isAuthenticated} = require('../config/passportConfig')
 
-
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './uploads')
