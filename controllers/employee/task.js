@@ -145,15 +145,21 @@ function fetchprojectData(){
         //update task in project-----
         async updateProject(req,res){
             const getProject = await req.body.updateProject
-            const tasks = req.body.taskUpdate
-
-                await project.updateOne(
+            const tasks = req.body.Task
+            let updated;
+            tasks.forEach((task)=>{
+            updated = project.updateOne(
                     {projectName:req.body.updateProject},
-                    {$push: {task: tasks}},
+                    {$push: {task: task}},
                     
                 ).then(
-                    res.redirect('/addproject')
+                    console.log(updated)
                 )
+
+            })
+
+
+                
                  
         },
         //employee task Updates------

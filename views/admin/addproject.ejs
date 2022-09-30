@@ -11,13 +11,13 @@
 <!-- include sweetalert for displaying dialog messages -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <link rel="stylesheet" href="../css/addProject.css ">
+
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.1/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.1/dist/js/tom-select.complete.min.js"></script>
 <script type="text/javascript">
-
     $(document).ready(function(){
-
         $( "#updateTask" ).submit(function(event) {
             event.preventDefault();
-
             $.ajax({
                 type: 'PUT',
                 url: '/addtask',
@@ -27,7 +27,6 @@
                     //alert("a");
                     //console.log(response.Success);
                     $('#updateTask')[0].reset();
-
                     document.getElementById("addstatus").innerHTML=response.Success;
                          //ADD THIS CODE
                          setTimeout(function(){
@@ -41,14 +40,11 @@
                      }
                  })
         });
-
     });
     // for deleting project-----
     $(document).ready(function(){
-
 $( "#projectDelete" ).submit(function(event) {
     event.preventDefault();
-
     $.ajax({
         type: 'DELETE',
         url: '/deleteproject',
@@ -58,7 +54,6 @@ $( "#projectDelete" ).submit(function(event) {
             //alert("a");
             //console.log(response.Success);
             $('#projectDelete')[0].reset();
-
             document.getElementById("projectDelete").innerHTML=response.Success;
                  //ADD THIS CODE
                  setTimeout(function(){
@@ -72,12 +67,7 @@ $( "#projectDelete" ).submit(function(event) {
              }
          })
 });
-
 });
-
-
-
-
 </script>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     
@@ -220,9 +210,14 @@ $( "#projectDelete" ).submit(function(event) {
                 </div>
                 <!-- enter task -->
                 <div class="form-group">
-                    <label for="">Task</label>
-                    <br>
-                    <input type="text" placeholder="addTask" name="taskUpdate">
+                    <input mbsc-input id="my-input" data-dropdown="true" data-tags="true" hidden />
+                    <select id="select-beast" placeholder="add  task..." autocomplete="off"multiple
+                    name="Task" style="width:200px;font-size: 20px;background-color: black!important;" default=" ">
+                    
+
+                  
+                  
+                </select>
                 </div>
             </form>
         </div>
@@ -282,6 +277,17 @@ $( "#projectDelete" ).submit(function(event) {
         </div>
     </div>
 </div>
+<script>
+        new TomSelect("#select-beast",{
+        inputElement: document.getElementById('my-input'),
+	create: true,
+	sortField: {
+		field: "text",
+		direction: "asc",
+    touchUi: false
+	}
+});
+</script>
 
 
 
@@ -294,7 +300,6 @@ $( "#projectDelete" ).submit(function(event) {
         padding: 5px;
         border-radius: 5px;
     }
-
     /* style when project is completed */
     .completed {
         color: white;
