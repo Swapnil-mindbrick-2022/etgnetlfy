@@ -105,7 +105,7 @@
             enctype="multipart/form-data" method="post" id="uploadpic">
             <input type="file" name="myImage" accept="image/*">
             <input type="text"value='<%= student.id %>' name ='userid' hidden>
-            <input type="submit" value="Upload Photo">
+            <input type="submit" value="Upload Photo" onclick="myalert()">
           </form>
             
                  
@@ -254,8 +254,9 @@ if(uploadpic.style.display==="none"){
 	uploadpic.style.display="none"
 	// window.parent.location.reload();
 }
-
-
+}
+function myalert(){
+  alert('image uploaded successfully')
 }
 
     </script>

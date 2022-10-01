@@ -4,10 +4,10 @@ var imageSchema = new Schema({
   
     img:
     {
-        // data: Buffer,
-        // contentType: String
-        type: String,
-        required: true,
+        data: Buffer,
+        contentType: String
+        // type: String,
+        // required: true,
     },
     uploadedBy:{
         type: String,

@@ -12,13 +12,13 @@ function fetchprojectData(){
 
 	return{
         async getprojects(req,res){
-            let profilepic=null
+            let items=null
             imageModel.findOne({uploadedBy:req.user.id},(err,profile)=>{
                 if(err){
                     console.log(err)
                 }else{
-                    profilepic = profile
-                    console.log(profilepic)
+                    items = profile
+                    console.log(items)
                 }
             })
            
@@ -58,7 +58,7 @@ function fetchprojectData(){
                                             // console.log(pendinglength)
                                                 res.render('employee/userTask.ejs',{'projects':tasks, 'Data':data,
                                                 'pendingTask':pendingtask, 
-                                                'pendinglength': JSON.stringify(pendinglength),'profilepic':profilepic})
+                                                'pendinglength': JSON.stringify(pendinglength),'items':items})
                                         }
                                     })
 

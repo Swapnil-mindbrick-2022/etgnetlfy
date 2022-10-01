@@ -4,6 +4,9 @@ const { request } = require('express')
 const fs = require("fs");
 const imageModel = require('../../models/profilepic');
 
+const path = require ('path')
+
+
 // const { connect } = require('mongoose')
 
 function fetchProjectReport(app){
@@ -115,31 +118,33 @@ function fetchProjectReport(app){
             
         },
         async postProfile(req,res){
-            const data = req.body
-            console.log(data)
-            employee.findOne({_id:data.userid},(err,profilepic)=>{
+            const data1 = req.body
+            console.log(data1)
+            employee.findOne({_id:data1.userid},(err,profilepic)=>{
                 if(err){
                     console.log(err)
                 }
                 else{
                     console.log(profilepic)
+                    
+                
+                   const newImage= new imageModel({
+                        img:{
+                           data: fs.readFileSync("uploads/"+req.file.filename),
+                           contentType:"image/png",
 
-                    var img = fs.readFileSync(req.file.path);
-                    var encode_img = img.toString('base64');
-                    const final_img = {
-                        contentType:req.file.mimetype,
-                        image:new Buffer(encode_img,'base64')
-                    };
-                 
-                    new imageModel({
-                        img:req.file.originalname,
+        
+                        },
+
                         uploadedBy:profilepic.id,
                         username:profilepic.username
                         
                     })
-                    .save()
-                    .then(console.log(req.file))
-                    res.redirect('/adminpanel')
+                    console.log(newImage)
+                    newImage.save()
+                    
+                    .then(()=>res.redirect('/adminpanel')).catch(error=>console.log(error))
+                    // res.redirect('/adminpanel')
                     // res.send('success')
                    
                 }
