@@ -164,79 +164,102 @@ function fetchprojectData(){
         },
         //employee task Updates------
         async assigntask(req,res){
-            const gettask = req.body
-            console.log(gettask)
-            let emp = gettask.employee
-            // gettask.employee.forEach((emp)=>{
-                for (let i =0; i < emp.length;i++){
-                    taskSchema.findOne(
-                        {
-                            projectName: {$in : gettask.projectName},
-                            assignedTo: {$in : emp[i]}
-                        },(err,data)=>{
-                            if (data){
-                                taskSchema.findOne(
-                                    {
-                                        projectName: {$in : gettask.projectName},
-                                        assignedTo: {$in : emp[i]},
-                                        task:{$in: gettask.task}
-                                    },(err,success)=>{
-                                        if (success){
-                                            req.flash('error_msg', 'task already added');
-                                            // res.redirect('/addproject/project')
-                                            
-                                        }else{
-                                       
-                                            taskSchema.updateOne(
-                                                {
-                                                    projectName: {$in : gettask.projectName},
-                                                    assignedTo: {$in : emp[i]}
-                                        
-                                                },
-                                                {$push:{task: gettask.task}})
-                                                .then(
-                                                    console.log('task Assigned Successfully')
-                                                    // res.redirect('/addproject/project')
-                                                )
-                                        }
-                                    }
-        
-                                )
-                               
-                                // console.log(data)
-                            }else{
-                                const assign = new taskSchema({
-                                    projectName: gettask.projectName,
-                                    task: gettask.task,
-                                    assignedTo: emp[i],
-                                    taskStatus: "active",
-                                })
-                                assign.save((err,success)=>{
-                                    if (err){
-                                        console.log(err)
-                                        // res.redirect('/addproject/project')
-                                    }else{
-                                        console.log(success)
-                                        // res.redirect('addproject/project')
-                                    }
-                                })
-                               
-                            }
-                        }
-                
-                    )
-    
+            const assign = req.body
+            // console.log(assign)
+            let emp = assign.employee
+            // console.log(typeof(emp))
+                // console.log(typeof(emp))
 
-                }
+        const chcktyp = typeof(emp)
+
+        // console.log(chcktyp)
+        if (chcktyp == 'object'){
+            // console.log('yes')
+             //for finding if task is assigned to the user or not
+             for (let i = 0; i < emp.length;i++){
+                taskSchema.findOne(
+                    {
+                        projectName:{$in : assign.projectName},
+                        assignedTo:{$in:emp[i]},
+                    },(err,success)=>{
+                        if (success){
+                            req.flash('error_msg','project already assigned')
+                        }else{
+                            project.findOne({projectName:assign.projectName},(err,data)=>{
+                                if (err){
+                                    console.log(err)
+                                }else{
+                                    const assign = new taskSchema({
+                                        projectName:data.projectName,
+                                        task: data.task,
+                                        assignedTo: emp[i],
+                                        taskStatus:'active'
+                                    })
+                                    assign.save((err,success)=>{
+                                        if (err){
+                                            console.log(err)
+                                        }
+                                        // else{
+                                        //     console.log(success)
+                                        // }
+                                    })
+
+                                }
+                            })
+                        }
+                    }
+
+                )
+            }
+        }else{
+             //for finding if task is assigned to the user or not
+                taskSchema.findOne(
+                    {
+                        projectName:{$in : assign.projectName},
+                        assignedTo:{$in:emp},
+                    },(err,success)=>{
+                        if (success){
+                            req.flash('error_msg','project already assigned')
+                        }else{
+                            project.findOne({projectName:assign.projectName},(err,data)=>{
+                                if (err){
+                                    console.log(err)
+                                }else{
+                                    const assign = new taskSchema({
+                                        projectName:data.projectName,
+                                        task: data.task,
+                                        assignedTo: emp,
+                                        taskStatus:'active'
+                                    })
+                                    assign.save((err,success)=>{
+                                        if (err){
+                                            console.log(err)
+                                        }
+                                        // else{
+                                        //     console.log(success)
+                                        // }
+                                    })
+
+                                }
+                            })
+                        }
+                    }
+
+                )
             
 
-                                
-            // })
-             
-                
-                
-        
-            },
+
+
+
+
+
+
+
+        }
+
+           
+
+},
    
         async sessionsave(req,res){
             let assignTask = req.body
