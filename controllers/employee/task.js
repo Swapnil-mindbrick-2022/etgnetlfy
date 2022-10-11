@@ -146,17 +146,34 @@ function fetchprojectData(){
         async updateProject(req,res){
             const getProject = await req.body.updateProject
             const tasks = req.body.Task
+
+            const typtask = typeof(tasks)
             let updated;
-            tasks.forEach((task)=>{
-            updated = project.updateOne(
+            if (typtask == 'object'){
+                tasks.forEach((task)=>{
+                    updated = project.updateOne(
+                            {projectName:req.body.updateProject},
+                            {$push: {task: task}},
+                            
+                        ).then(
+                            console.log(updated)
+                        )
+        
+                    })
+
+            }else{
+                updated = project.updateOne(
                     {projectName:req.body.updateProject},
-                    {$push: {task: task}},
+                    {$push: {task: tasks}},
                     
                 ).then(
                     console.log(updated)
                 )
 
-            })
+            }
+            
+           
+            
 
 
                 
