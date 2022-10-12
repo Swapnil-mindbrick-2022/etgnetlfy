@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="./css/main.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 </head>
 <style>
 
@@ -364,29 +365,29 @@ if(uploadpic.style.display==="none"){
 
 
 // for log in time
-const zeroFill = n => {
-				return ('0' + n).slice(-2);
-			}
-				const now = new Date();
+// const zeroFill = n => {
+// 				return ('0' + n).slice(-2);
+// 			}
+// 				const now = new Date();
 
-				// Format date as in mm/dd/aaaa hh:ii:ss
-				const dateTime = zeroFill((now.getMonth() + 1)) + '/' + zeroFill(now.getUTCDate()) + '/' 
-				+ now.getFullYear() + ' ' + zeroFill(now.getHours()) + ':' + zeroFill(now.getMinutes()) + ':' +
-				 zeroFill(now.getSeconds());
+// 				// Format date as in mm/dd/aaaa hh:ii:ss
+// 				const dateTime = zeroFill((now.getMonth() + 1)) + '/' + zeroFill(now.getUTCDate()) + '/' 
+// 				+ now.getFullYear() + ' ' + zeroFill(now.getHours()) + ':' + zeroFill(now.getMinutes()) + ':' +
+// 				 zeroFill(now.getSeconds());
 				
 				 
 					
 
-				// Display the date and time on the screen using div#date-time
+// 				// Display the date and time on the screen using div#date-time
 
 
-				document.getElementById('date-time').innerHTML = dateTime;
+// 				document.getElementById('date-time').innerHTML = dateTime;
 				
 
 
 
 	
-				const $select1 = $( '#parentselect' ),
+const $select1 = $( '#parentselect' ),
 				$select2 = $( '#childselect' ),
 				$options = $select2.find( 'option' );
 				

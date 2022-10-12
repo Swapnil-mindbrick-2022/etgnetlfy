@@ -24,7 +24,7 @@ exports.initializingPassport = (passport)=>{
             
            
 
-            User.findOneAndUpdate({_id:user.id},{$set:{lastLogin:now.toString().substring(0,8)}},(err,success)=>{
+            User.findOneAndUpdate({_id:user.id},{$set:{lastLogin:now}},(err,success)=>{
                 if (err){
                     console.log(err)
                 }else{
