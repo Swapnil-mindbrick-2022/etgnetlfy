@@ -28,7 +28,18 @@ app.get('/login', function (req, res, next) {
 	
 });
 //post login
-app.post('/login',passport.authenticate('local',{successRedirect:'/userTask',failureRedirect:'/'}));
+app.post('/login',passport.authenticate('local',{successRedirect:'/userTask',failureRedirect:'/'}),()=>{
+	
+		// User.findOneAndUpdate({_id:req.user.id},{$set:{lastLogin:Date.now()}},(err,success)=>{
+        //     if (err){
+        //         console.log(err)
+        //     }else{
+                
+        //         console.log(success)
+        //     }
+        // })
+
+});
 //get profile--
 app.get('/profile',userAuth,function (req, res, next) {
 		User.findOne({_id:req.user.id},function(err,data){

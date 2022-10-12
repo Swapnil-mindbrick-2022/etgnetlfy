@@ -159,11 +159,7 @@ th, td {
 					<li style="margin-bottom: 5px;"> <%= Data.firstName +" " + Data.lastName %></li>
 					<li style="margin-bottom: 10px;" > <%= Data.designation %></li>
 					<li>TeamLeader : <%= Data.teamLeader %></li>
-					<li style="margin-top:0.9rem">Login time :<span id ='date-time'> </span> </li>
-					
-		
-
-
+					<li style="margin-top:0.9rem">Login time :<span><%= Data.lastLogin%></span> </li>
 				</ul>
 				<form style="position: absolute; display: none;"action="/userTask/uploadphoto" 
 					enctype="multipart/form-data" method="post" id="uploadpic">
@@ -203,16 +199,26 @@ th, td {
 						<label style="font-size: 1.3rem; margin-left:10px" for="duration">Duration :</label>
 						
 							<select style="font-size: 1.3rem; margin-right: 20px; margin-top: 2rem; color: black;" id ='duration'  name="timetaken" required>
-								
+						
+								<option value="0.5 hour">0.5hour</option>
 								<option value="1 hour">1 hour</option>
+								<option value="1.5 hour">1.5 hour</option>
 								<option value="2 hour">2 hour</option>
+								<option value="2.5 hour">2.5 hour</option>
 								<option value="3 hour">3 hour</option>
+								<option value="3.5 hour">3.5 hour</option>
 								<option value="4 hour">4 hour</option>
+								<option value="4.5 hour">4.5 hour</option>
 								<option value="5 hour">5 hour</option>
+								<option value="5.5 hour">5.5 hour</option>
 								<option value="6 hour">6 hour</option>
+								<option value="6.5 hour">6.5 hour</option>
 								<option value="7 hour">7 hour</option>
+								<option value="7.5 hour">7.5 hour</option>
 								<option value="8 hour">8 hour</option>
+								<option value="8.5 hour">8.5 hour</option>
 								<option value="9 hour">9 hour</option>
+								<option value="9.5 hour">9.5 hour</option>
 								<option value="10 hour">10 hour</option>
 							</select>
 						<br>

@@ -191,7 +191,7 @@ function fetchprojectData(){
 
         // console.log(chcktyp)
         if (chcktyp == 'object'){
-            // console.log('yes')
+            console.log('yes')
              //for finding if task is assigned to the user or not
              for (let i = 0; i < emp.length;i++){
                 taskSchema.findOne(
@@ -200,7 +200,22 @@ function fetchprojectData(){
                         assignedTo:{$in:emp[i]},
                     },(err,success)=>{
                         if (success){
-                            req.flash('error_msg','project already assigned')
+                            console.log('project already assigned')
+                            project.findOne({projectName:assign.projectName},(err,projects)=>{
+                                if(err){
+                                    console.log(err)
+                                }else{
+                                    taskSchema.updateOne(
+                                        {
+                                            projectName:{$in: success.projectName},
+                                            assignedTo:{$in: success.assignedTo}
+                                        },
+                                        {task:projects.task}
+                                    ).then(
+                                        console.log('updated successfully')
+                                    )
+                                }
+                            })
                         }else{
                             project.findOne({projectName:assign.projectName},(err,data)=>{
                                 if (err){
@@ -236,7 +251,22 @@ function fetchprojectData(){
                         assignedTo:{$in:emp},
                     },(err,success)=>{
                         if (success){
-                            req.flash('error_msg','project already assigned')
+                            // req.flash('error_msg','project already assigned')
+                            project.findOne({projectName:assign.projectName},(err,projects)=>{
+                                if(err){
+                                    console.log(err)
+                                }else{
+                                    taskSchema.updateOne(
+                                        {
+                                            projectName:{$in: success.projectName},
+                                            assignedTo:{$in: success.assignedTo}
+                                        },
+                                        {task:projects.task}
+                                    ).then(
+                                        console.log('updated success')
+                                    )
+                                }
+                            })
                         }else{
                             project.findOne({projectName:assign.projectName},(err,data)=>{
                                 if (err){
@@ -252,9 +282,9 @@ function fetchprojectData(){
                                         if (err){
                                             console.log(err)
                                         }
-                                        // else{
-                                        //     console.log(success)
-                                        // }
+                                        else{
+                                            console.log(success)
+                                        }
                                     })
 
                                 }

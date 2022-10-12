@@ -1,5 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/user')
+const date = require('date-and-time')
 
 exports.initializingPassport = (passport)=>{
 
@@ -11,9 +12,33 @@ exports.initializingPassport = (passport)=>{
             if (!user) return done(null,false);
 
 
-        if (user.password !== password) return done(null,false);
+        if (user.password !== password){
+            return done(null,false);
 
-        return done (null, user)
+        }else{
+            // let curdate = Date.now()
+            const now = new Date();
+            const pattern = date.compile('ddd, MMM DD YYYY');
+            date.format(now, pattern);
+
+            
+           
+
+            User.findOneAndUpdate({_id:user.id},{$set:{lastLogin:now.toString().substring(0,8)}},(err,success)=>{
+                if (err){
+                    console.log(err)
+                }else{
+                    
+                    console.log(success)
+                }
+            })
+    
+
+            return done (null, user)
+
+        }
+
+      
 
         }
          catch (error){
