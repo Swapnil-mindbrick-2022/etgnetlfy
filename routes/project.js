@@ -69,6 +69,8 @@ function projectrouter(app){
     app.post('/taskHistory',userAuth,fetchProjectReport().taskhistory)
 
     app.post('/deleteAssignProject',admincontroller().deleteAssignedTask)
+    //deleting multiple assigned projects----
+    // app.delete('/deleteselected',admincontroller().deleteSelected)
 }
 
 module.exports = projectrouter

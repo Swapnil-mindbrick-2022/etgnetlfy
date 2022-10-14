@@ -17,11 +17,7 @@ exports.initializingPassport = (passport)=>{
 
         }else{
             // let curdate = Date.now()
-            const now = new Date();
-            const pattern = date.compile('ddd, MMM DD YYYY');
-            date.format(now, pattern);
-
-            
+            const now = Date.now();
            
 
             User.findOneAndUpdate({_id:user.id},{$set:{lastLogin:now}},(err,success)=>{

@@ -28,22 +28,38 @@ function admincontroller(app){
     
         },
         async deleteAssignedTask(req,res){
-            taskschema.update(
-                {_id : {$in : req.body.projectid},
-                task:{$in : req.body.taskName},
-                assignedTo:{$in:req.body.assignedTo}
-                },
-                {$pull:{task:req.body.taskName}},
-                function(err,success){
-                    if (err){
-                        console.log(err)
-                        res.redirect('/addproject/project')
-                    }else{
-                        res.redirect('/addproject/project')
-                    }
-                }
-                )
-        }
+
+            await taskschema.deleteOne(
+                {_id:req.body.projectid}
+
+            ).then(result=>{
+                console.log(result,'project deleted successfully')
+                res.redirect('/addproject/project')
+            }).catch(err => console.log(err))
+            
+            // taskschema.update(
+            //     {_id : {$in : req.body.projectid},
+            //     task:{$in : req.body.taskName},
+            //     assignedTo:{$in:req.body.assignedTo}
+            //     },
+            //     {$pull:{task:req.body.taskName}},
+            //     function(err,success){
+            //         if (err){
+            //             console.log(err)
+            //             res.redirect('/addproject/project')
+            //         }else{
+            //             res.redirect('/addproject/project')
+            //         }
+            //     }
+            //     )
+        },
+        // async deleteSelected(req,res){
+        //     const selectedproject = req.body
+
+        //     console.log(selectedproject.id)
+
+
+        // }
         
     }
 }
