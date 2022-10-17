@@ -27,7 +27,7 @@ userSchema = new Schema( {
 	password: String,
 	role:String,
 	
-	lastLogin : { type : Date, default: Date.now }
+	lastLogin : String
 })
 
 

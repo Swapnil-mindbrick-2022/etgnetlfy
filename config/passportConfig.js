@@ -1,6 +1,7 @@
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/user')
-const date = require('date-and-time')
+// const date = require('date-and-time')
+const moment = require('moment')
 
 exports.initializingPassport = (passport)=>{
 
@@ -17,10 +18,10 @@ exports.initializingPassport = (passport)=>{
 
         }else{
             // let curdate = Date.now()
-            const now = Date.now();
-           
+            const curdate = moment().format("YYYY-MM-DD HH:mm:ss")
+           console.log(curdate)
 
-            User.findOneAndUpdate({_id:user.id},{$set:{lastLogin:now}},(err,success)=>{
+            User.findOneAndUpdate({_id:user.id},{$set:{lastLogin:moment().format("YYYY-MM-DD HH:mm:ss")}},(err,success)=>{
                 if (err){
                     console.log(err)
                 }else{

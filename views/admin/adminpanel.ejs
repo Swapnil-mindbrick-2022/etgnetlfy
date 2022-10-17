@@ -86,47 +86,69 @@
               </tr>
             </thead>
             <tbody>
-              <% value.forEach(function(student) { %>
+              <% for (let i =0;i< value.length;i++){ %>
               <tr>
-                <!-- <td>
-                  <span class="custom-checkbox">
-                    <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                    <label for="checkbox1"></label>
-                  </span>
-                </td> -->
-                <th>
-                	<!-- <button onclick=" hidetableform()" type="button" class="btn " data-toggle="modal"
-					style ="background-color: aliceblue; float: right;margin-top: -65px;" data-target="#form"> 
-					<svg style="background-color: red" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16" >
-						<path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-					  </svg>
-					  </button> -->
-            <form  action="/userTask/uploadphoto" 
-            enctype="multipart/form-data" method="post" id="uploadpic">
-            <input type="file" name="myImage" accept="image/*">
-            <input type="text"value='<%= student.id %>' name ='userid' hidden>
-            <input type="submit" value="Upload Photo" onclick="myalert()">
-          </form>
-            
-                 
-                </th>
-                <td><%= student.firstName %></td>
-                <td><%= student.lastName %></td>
-                <td><%= student.designation %></td>
-                <td><%= student.teamLeader %></td>
-                <td><%= student.username %></td>
-                <td><%= student.date_of_birth %></td>
-                <td><%= student.email %></td>
-                <td><%= student.password %></td>
-                <td><%= student.lastLogin.toString().substring(0,24)%></td>
                 <td>
-                  <form action="/deleteuser/<%= student.id %>?_method=DELETE" method="POST">
+                  <form  action="/userTask/uploadphoto" 
+                  enctype="multipart/form-data" method="post" id="uploadpic">
+                  <input type="file" name="myImage" accept="image/*">
+                  <input type="text"value='<%= value[i].id %>' name ='userid' hidden>
+                  <input type="submit" value="Upload Photo" onclick="myalert()">
+                </form>
+                </td>
+          
+                <!-- Edit Modal HTML -->
+                <td><%= value[i].firstName %></td>
+                <td><%= value[i].lastName %></td>
+                <td><%= value[i].designation %></td>
+                <td><%= value[i].teamLeader %></td>
+                <td><%= value[i].username %></td>
+                <td><%= value[i].date_of_birth %></td>
+                <td><%= value[i].email %></td>
+                <td><%= value[i].password %></td>
+                <td><%= value[i].lastLogin%></td>
+                <td>
+                  <form action="/deleteuser/<%= value[i].id %>?_method=DELETE" method="POST">
                   <button style="background-color: white; border: 0px white;" type = "submit">
                     <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a></button>
                     </form>
-                  </td>
+                </td>
+                <!-- <td>
+                    <a class="btn btn-success" id="editemployee">
+                      <i class="material-icons">&#xE147;</i> <span><Em>Edit</Em></span></a>
+
+                      <form>
+                        <div class="form-group row">
+                          <label for="staticEmail" class="col-sm-2 col-form-label">firstName</label>
+                          <div class="col-sm-10">
+                            <input type="text" name="lastname" value="<%= value[i].firstName%>">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="inputPassword" class="col-sm-2 col-form-label">LastName</label>
+                          <div class="col-sm-10">
+                            <input class="form-control"name="lastname" value="<%= value[i].lastName%>">
+                          </div>
+                          <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-2 col-form-label">Designation</label>
+                            <div class="col-sm-10">
+                              <input  class="form-control"name="designation" value="<%= value[i].designation%>">
+                            </div>
+                            <div class="form-group row">
+                              <label for="inputPassword" class="col-sm-2 col-form-label">TeamLeader</label>
+                              <div class="col-sm-10">
+                                <input name="teamlead" value="<%= value[i].teamLeader%>" >
+                              </div>
+                              <div class="form-group row">
+                                <label  class="col-sm-2 col-form-label">Username</label>
+                                <div class="col-sm-10">
+                                  <input name="teamlead" value="<%=value[i].teamLeader%>" >
+                                </div>
+                        </div>
+                      </form>
+                  </td> -->
               </tr>
-              <% }); %> 
+              <% }; %> 
 
               
             </tbody>
@@ -135,80 +157,6 @@
         </div>
       </div>        
       </div>
-    <!-- Edit Modal HTML -->
-    <div id="addEmployeeModal" class="modal fade">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <form>
-            <div class="modal-header">						
-              <h4 class="modal-title">Add Employee</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div>
-            <div class="modal-body">					
-              <div class="form-group">
-                <label>Name</label>
-                <input type="text" class="form-control" required>
-              </div>
-              <div class="form-group">
-                <label>Email</label>
-                <input type="email" class="form-control" required>
-              </div>
-              <div class="form-group">
-                <label>Address</label>
-                <textarea class="form-control" required></textarea>
-              </div>
-              <div class="form-group">
-                <label>Phone</label>
-                <input type="text" class="form-control" required>
-              </div>					
-            </div>
-            <div class="modal-footer">
-              <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-              <input type="submit" class="btn btn-success" value="Add">
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-   
-    <!-- Edit Modal HTML
-    
-    <div id="editEmployeeModal" href ='/updateuser' method="put"> class="modal fade">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <form>
-            <div class="modal-header">						
-              <h4 class="modal-title">Edit Employee</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div>
-               <label for="firstName">First Name *</label>
-              <input type="text" id="firstName"value="" name="firstName" placeholder="John" required/><p class="error-message"></p>
-              <label for="lastName">Last Name *</label>
-              <input type="text" id="lastName" name="lastName"placeholder="Doe" required/>
-              <p class="error-message"></p>
-              <label for="e-mail">Date of birth *</label>
-              <input type ='date'id ="date_of_birth"name='date_of_birth' placeholder="date_of_birth"required/>
-              <p class="error-message"></p>
-              <label for="e-mail">Designation *</label>
-              <input  type ='text'id ="designation" name='designation' placeholder="designation" required="" />
-              <p class="error-message"></p>
-              <label for="teamLeader">Team Leader *</label>
-              <input  type ='text'id ="teamLeader"name='teamLeader' placeholder="teamLeader" required=""/>
-              <p class="error-message"></p>
-
-
-		<label for="e-mail">E-mail address *</label>
-		<input type="text" id="e-mail" name="email" placeholder="john-doe@net.com" required/>
-            <div class="modal-footer">
-              <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-              <input type="submit" class="btn btn-info" value="Save">
-            </div>
-          </form>
-        </div>
-      </div>
-    </div> -->
-    <!-- Delete Modal HTML -->
-
     <form action="/deleteuser" method="delete" enctype="multipart/form-data" id="deleteEmployeeModal">
     <div  class="modal fade">
       <div class="modal-dialog">

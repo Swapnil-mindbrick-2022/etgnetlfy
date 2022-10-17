@@ -182,6 +182,8 @@ th, td {
 					<label for="" style="font-size: 1.2rem; ;">Project :</label>
 								<select id ="parentselect" name="projectName" style="font-size: 13px; margin: 15px" required>
 									<%projects.forEach((project)=>{%>
+									<!-- <option  data-state="Extra" value="Extra"></option> -->
+
 									<option data-state="<%= project.projectName %>" value="<%= project.projectName %>"
 										 style='color: black;'><%= project.projectName %></option>
 									<%})%>
@@ -192,6 +194,8 @@ th, td {
 						<select style="font-size: 1.2rem; margin: 0.4rem; margin-right:12px;"  id ="childselect" name="task" required>
 							<%projects.forEach((project)=>{%>
 								<% project.task.forEach((task)=>{%>
+
+
 							<option data-state="<%= project.projectName %>" value="<%=task%>"><%= task%></option>
 							<%})%>
 						<%})%>
