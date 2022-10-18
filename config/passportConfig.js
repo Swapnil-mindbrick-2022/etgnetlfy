@@ -18,10 +18,9 @@ exports.initializingPassport = (passport)=>{
 
         }else{
             // let curdate = Date.now()
-            const curdate = moment().format("YYYY-MM-DD HH:mm:ss")
-           console.log(curdate)
+          
 
-            User.findOneAndUpdate({_id:user.id},{$set:{lastLogin:moment().format("YYYY-MM-DD HH:mm:ss")}},(err,success)=>{
+            User.findOneAndUpdate({_id:user.id},{$set:{lastLogin:moment().utcOffset("+05:30").format()}},(err,success)=>{
                 if (err){
                     console.log(err)
                 }else{
