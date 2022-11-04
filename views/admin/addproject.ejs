@@ -1,4 +1,3 @@
-<!-- to make responsive -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <!-- include bootstrap css -->
@@ -148,9 +147,10 @@ $( "#projectDelete" ).submit(function(event) {
         <caption class="text-center">All Tasks</caption>
         <tr>
             <th>Date</th>
-            <th>Task</th>
+            <th onclick="hideinput()" style="cursor: pointer;">Task</th>
             <th>Project</th>
             <th>Delete</th>
+          
         </tr>
 
         <tbody id="">
@@ -159,7 +159,14 @@ $( "#projectDelete" ).submit(function(event) {
                 <tr>
                     <td><%= (project.date).toString().substring(0,16)%>
                     </td>
-                    <td><%= tasks%></td>
+                    <td class="taskhide"><%= tasks%>
+                        <span><form action="/updatetaskname" method="post" class="editTask" style="display:none">
+                            <input value="<%= project._id%>" name="projectid"   type="text" hidden>
+                            <input type="text" value="<%= tasks%>"name="taskName" hidden>
+                            <input type="text" name="updatedName">
+                            <button type="submit" class="btn btn-warning">change</button>
+                        </form></span>
+                    </td>
                     <td><%= project.projectName%></td>
                     <form action="/deletetask" method="POST">
                         <td>
@@ -174,7 +181,6 @@ $( "#projectDelete" ).submit(function(event) {
                                  4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                               </svg>
                             </button>
-                            <!-- <button onclick="window.parent.location.reload()" type="submit" class="btn btn-danger">Delete</button> -->
                         </td>
                     </form>
                 </tr>
@@ -287,6 +293,28 @@ $( "#projectDelete" ).submit(function(event) {
     touchUi: false
 	}
 });
+
+let btntask = document.getElementById('openedit')
+
+let inputfrm = document.getElementsByClassName('editTask')
+
+
+function hideinput(){
+
+    for (let i =0;i< inputfrm.length;i++){
+        if (inputfrm[i].style.display === 'none'){
+        inputfrm[i].style.display = "block"
+        }else{
+        inputfrm[i].style.display = "none"
+    }
+
+    }
+   
+    
+}
+
+
+
 </script>
 
 
