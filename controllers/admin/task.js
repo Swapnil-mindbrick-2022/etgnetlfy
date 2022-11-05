@@ -88,6 +88,7 @@ function admincontroller(app){
                                 }else{
                                     console.log(result)
                                     res.redirect('/addproject')
+                                    // res.send('Task Updated Successfully')
                                 }
                             }
                         )

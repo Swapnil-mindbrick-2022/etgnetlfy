@@ -71,7 +71,8 @@ function projectrouter(app){
     app.post('/deleteAssignProject',admincontroller().deleteAssignedTask)
     //deleting multiple assigned projects----
     // app.delete('/deleteselected',admincontroller().deleteSelected)
-  app.post('/updatetaskname',admincontroller().updateAssignedTask)
+//for updating taskName---
+  app.post('/addproject',admincontroller().updateAssignedTask)
 }
 
 module.exports = projectrouter
