@@ -160,12 +160,14 @@ $( "#projectDelete" ).submit(function(event) {
                     <td><%= (project.date).toString().substring(0,16)%>
                     </td>
                     <td class="taskhide"><%= tasks%>
-                        <span><form action="/addproject" method="post" class="editTask" style="display:none">
+                        <span class="editTask" style="display:none">
+                        <form action="/addproject" method="POST" >
                             <input value="<%= project._id%>" name="projectid"   type="text" hidden>
                             <input type="text" value="<%= tasks%>"name="taskName" hidden>
                             <input type="text" name="updatedName">
                             <button type="submit" class="btn btn-warning">change</button>
-                        </form></span>
+                        </form>
+                    </span>
                     </td>
                     <td><%= project.projectName%></td>
                     <form action="/deletetask" method="POST">

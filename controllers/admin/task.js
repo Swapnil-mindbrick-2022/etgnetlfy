@@ -83,11 +83,11 @@ function admincontroller(app){
                                 _id:req.body.projectid
                             },
                             {$addToSet:{task:req.body.updatedName}},(err,result)=>{
-                                if (err){
-                                    res.send(err)
+                                if (result){
+                                    return res.redirect('/addproject')
                                 }else{
-                                    console.log(result)
-                                    res.redirect('/addproject')
+                                    // console.log(result)
+                                    return res.redirect('/addproject')
                                     // res.send('Task Updated Successfully')
                                 }
                             }
