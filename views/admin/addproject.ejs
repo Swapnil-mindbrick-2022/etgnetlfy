@@ -67,6 +67,36 @@ $( "#projectDelete" ).submit(function(event) {
          })
 });
 });
+$(document).ready(function(){
+$( "#updateTask" ).submit(function(event) {
+    event.preventDefault();
+    $.ajax({
+        type: 'POST',
+        url: '/addproject',
+        data: $('#updateTask').serialize(),
+        dataType: "json",
+        success: function(response){
+            //alert("a");
+            //console.log(response.Success);
+            $('#updateTask')[0].reset();
+            document.getElementById("updateTask").innerHTML=response.Success;
+                 //ADD THIS CODE
+                 setTimeout(function(){
+                     document.getElementById("updateTask").innerHTML="";
+                 },3000);
+                 if (response.Success=="Success!") {
+                     document.getElementById("taskUpdate").click();
+                 };
+             },
+             error: function() {
+             }
+         })
+});
+});
+
+
+
+
 </script>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     
@@ -159,14 +189,15 @@ $( "#projectDelete" ).submit(function(event) {
                 <tr>
                     <td><%= (project.date).toString().substring(0,16)%>
                     </td>
-                    <td class="taskhide"><%= tasks%>
-                        <span class="editTask" style="display:none">
-                        <form action="/addproject" method="POST" >
-                            <input value="<%= project._id%>" name="projectid"   type="text" hidden>
-                            <input type="text" value="<%= tasks%>"name="taskName" hidden>
-                            <input type="text" name="updatedName">
-                            <button type="submit" class="btn btn-warning">change</button>
+                    <td ><%= tasks%>
+                        <span  class="editTask" style="display:none" >
+                            <form action="/addproject" method="POST" id="updateTask">
+                                <input value="<%= project._id%>" name="projectid"   type="text" hidden>
+                                <input type="text" value="<%= tasks%>"name="taskName" hidden>
+                                <input type="text" name="updatedName">
+                            <button  id="taskUpdate" type="submit"class="btn btn-warning">Change</button>
                         </form>
+                      
                     </span>
                     </td>
                     <td><%= project.projectName%></td>
